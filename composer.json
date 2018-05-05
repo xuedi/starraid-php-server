@@ -1,0 +1,14 @@
+{
+  "require": {
+    "react/event-loop": "^0.5.2",
+    "react/http": "^0.8.3",
+    "doctrine/orm": "2.4.*",
+    "react/mysql": "^0.3.2",
+    "symfony/var-dumper": "^4.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "": "src/"
+    }
+  }
+}
