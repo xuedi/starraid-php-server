@@ -22,14 +22,14 @@ class ObjectService
         return self::$instance;
     }
 
+    public function init()
+    {
+        //
+    }
+
     public function add($var)
     {
         $this->objects[] = $var;
-    }
-
-    public function loadSave()
-    {
-        //
     }
 
     public function getStatus(): array

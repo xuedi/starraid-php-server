@@ -11,9 +11,13 @@ class TimerController implements Routable
     /** ObjectService */
     private $objects = null;
 
+    /** DatabaseService */
+    private $database = null;
+
     public function __construct()
     {
         $this->objects = \App\Service\ObjectService::getInstance();
+        $this->database = \App\Service\DatabaseService::getInstance();
     }
 
     public function index(ServerRequestInterface $request): Response
@@ -23,8 +27,9 @@ class TimerController implements Routable
 
     public function updateObjects()
     {
-        //echo "updateObjects\n";
-        $this->objects->add('updateObjects');
+        dump($this->database);
+        //echo "updateObjects()\n";
+        //$this->objects->add('updateObjects');
     }
 
     public function statusDump()

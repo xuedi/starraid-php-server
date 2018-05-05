@@ -24,10 +24,13 @@ class RoutingService
         if (empty($path)) {
             $this->createResponse('Version: 0.1');
         }
+
         list($controller, $method) = explode('/', $path);
         if (empty($method)) {
             $method = 'index';
         }
+
+
         dump('Controller: ' . $controller . ', Method: ' . $method);
 
         throw new Exception('Could not dispatch to any controller');
