@@ -1,0 +1,8 @@
+#!/bin/bash
+mysql --user="starraid" --password="12345" --database="starraid" --execute="DROP TABLE spaceship;"
+mysql --user="starraid" --password="12345" --database="starraid" --execute="DROP TABLE user;"
+mysql --user="starraid" --password="12345" --database="starraid" --execute="DELETE FROM phinxlog;"
+
+./phinx migrate
+./phinx seed:run -s UserSeed
+./phinx seed:run -s SpaceshipSeed
