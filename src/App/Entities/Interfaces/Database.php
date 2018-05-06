@@ -18,7 +18,12 @@ interface Database
      * @param array $data
      * @return mixed
      */
-    public function map(array $data);
+    public function load(array $data);
+
+    /**
+     * @return array
+     */
+    public function map(): array;
 
     /**
      * @return string

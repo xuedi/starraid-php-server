@@ -16,7 +16,7 @@ class RoleEntity extends AbstractObject implements Database
     /**
      * @param array $data
      */
-    public function map(array $data)
+    public function load(array $data)
     {
         $this->name = $data['name'] ?? null;
 
@@ -24,6 +24,14 @@ class RoleEntity extends AbstractObject implements Database
         $this->uuid = $data['uuid'] ?? null;
         $this->loadedAt = $data['loadedAt'] ?? null;
         $this->createdAt = $data['createdAt'] ?? null;
+    }
+
+    /**
+     * @return array
+     */
+    public function map() : array
+    {
+        return [];
     }
 
     //#########################################################

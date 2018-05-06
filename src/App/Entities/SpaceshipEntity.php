@@ -26,7 +26,7 @@ class SpaceshipEntity extends AbstractObject implements Database
      * @param array $data
      * @return mixed|void
      */
-    public function map(array $data)
+    public function load(array $data)
     {
         $this->userUuid = $data['userUuid'] ?? null;
         $this->title = $data['title'] ?? null;
@@ -37,6 +37,14 @@ class SpaceshipEntity extends AbstractObject implements Database
         $this->uuid = $data['uuid'] ?? null;
         $this->loadedAt = $data['loadedAt'] ?? null;
         $this->createdAt = $data['createdAt'] ?? null;
+    }
+
+    /**
+     * @return array
+     */
+    public function map() : array
+    {
+        return [];
     }
 
     //#########################################################

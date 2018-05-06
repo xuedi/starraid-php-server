@@ -19,7 +19,7 @@ class UserRoleEntity extends AbstractObject implements Database
     /**
      * @param array $data
      */
-    public function map(array $data)
+    public function load(array $data)
     {
         $this->userUuid = $data['userUuid'] ?? null;
         $this->roleUuid = $data['roleUuid'] ?? null;
@@ -28,6 +28,14 @@ class UserRoleEntity extends AbstractObject implements Database
         $this->uuid = $data['uuid'] ?? null;
         $this->loadedAt = $data['loadedAt'] ?? null;
         $this->createdAt = $data['createdAt'] ?? null;
+    }
+
+    /**
+     * @return array
+     */
+    public function map() : array
+    {
+        return [];
     }
 
     //#########################################################

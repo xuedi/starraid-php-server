@@ -15,10 +15,11 @@ use App\Entities\UserRoleEntity;
  */
 class ObjectService
 {
+    //TODO: make dynamic dependencies
     const ENTITIES = [
-        'user' => UserEntity::class,
         'role' => RoleEntity::class,
         'user_role' => UserRoleEntity::class,
+        'user' => UserEntity::class, // depend on [role, user_role]
         'spaceship' => SpaceshipEntity::class,
     ];
 
@@ -63,12 +64,80 @@ class ObjectService
             $dataRows = $this->database->select('SELECT * FROM ' . $tableName);
             foreach ($dataRows as $dataRow) {
                 $entity = new $entityClassName();
-                $entity->map($dataRow);
+                $entity->load($dataRow);
                 $this->objects[$tableName][$entity->getUuid()] = $entity;
                 unset($entity);
             }
         }
+        $this->map();
+        //dump($this->objects);
+    }
+
+    /**
+     * Fucking hell, maybe i should have stayed with doctrine...
+     */
+    public function map()
+    {
+        /** @var Database $entityToUpdate */
+        foreach (self::ENTITIES as $tableName => $entityClassName) {
+            $map = (new $entityClassName())->map();
+            if (!empty($map)) {
+                foreach ($this->objects[$tableName] as $entityToUpdate) {
+                    dump($entityToUpdate);
+                    $this->getMappedEntities($this->objects[$tableName], $map, $entityToUpdate);
+                }
+            }
+        }
         dump($this->objects);
+    }
+
+    /**
+     * @param Database $entity
+     * @param array $mapList
+     * @param Database $entityToUpdate
+     * @return array
+     */
+    private function getMappedEntities(Database $entity, array $mapList, Database $entityToUpdate): array
+    {
+        $searchIds = [];
+        $searchIds[] = $entity->getUuid();
+        /** @var Database $entity */
+        foreach ($mapList as $targetSetter => $steps) {
+            foreach ($steps as $step) {
+                $searchIds = $this->search($searchIds, $step);
+            }
+
+            $entityList = [];
+            $lastTable = end($steps)['table'];
+            foreach ($searchIds as $id) {
+                $entityList[] = $this->objects[$lastTable][$id];
+            }
+            if (method_exists($entityToUpdate, $targetSetter)) {
+                $entityToUpdate->{$targetSetter}($entityList);
+            }
+        }
+    }
+
+    /**
+     * @param array $searchIds
+     * @param array $map
+     * @return array
+     */
+    private function search(array $searchIds = [], array $map): array
+    {
+        $newSearchIds = [];
+        /** @var Database $entity */
+        foreach ($this->objects[$map['table']] as $entity) {
+            foreach ($searchIds as $searchId) {
+                if (!method_exists($entity, $map['getterFindBy']) || !method_exists($entity, $map['getterSearch'])) {
+                    continue;
+                }
+                if ($entity->{$map['getterFindBy']}() == $searchId) {
+                    $newSearchIds[] = $entity->{$map['getterSearch']}();
+                }
+            }
+        }
+        return $newSearchIds;
     }
 
     /**
