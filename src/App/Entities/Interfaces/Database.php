@@ -22,4 +22,14 @@ interface Database
      * @return string
      */
     public function getTableName(): string;
+
+    /**
+     * @return string
+     */
+    public function getUuid(): string;
+
+    /**
+     * @param string $uuid
+     */
+    public function setUuid(string $uuid): void;
 }

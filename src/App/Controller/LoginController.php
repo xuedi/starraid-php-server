@@ -45,9 +45,7 @@ class LoginController extends AbstractController implements Routable
     {
         $user = $request->getQueryParams()['user'] ?? null;
         $pass = $request->getQueryParams()['pass'] ?? null;
-        return $this->jsonResponse([
-            'user' => $user,
-            'pass' => $pass,
-        ]);
+
+        return $this->jsonResponse($this->objects->authenticate($user, $pass));
     }
 }

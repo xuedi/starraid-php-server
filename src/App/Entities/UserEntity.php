@@ -3,7 +3,6 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
-use DateTime;
 
 class UserEntity extends AbstractObject implements Database
 {

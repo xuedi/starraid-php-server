@@ -6,6 +6,8 @@ try {
 
 
     // App
+    $appSalt = md5('4fc6eced41f407502b1caca738c08355');
+    $appToken = md5($appSalt.'-'.time());
     $timer = \App\Timer\Timer::getInstance();
     $router = new App\Service\RoutingService();
     $database = \App\Service\DatabaseService::getInstance();
@@ -17,7 +19,7 @@ try {
         'name' => 'starraid',
     ]);
     $objects = \App\Service\ObjectService::getInstance();
-    $objects->load();
+    $objects->load($appToken);
 
 
     // Server
