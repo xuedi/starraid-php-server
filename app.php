@@ -3,6 +3,7 @@
 require 'vendor/autoload.php';
 
 try {
+    echo "Server @ http://127.0.0.1:8080\n";
 
 
     // App
@@ -20,7 +21,7 @@ try {
         'name' => 'starraid',
     ]);
     $objects = \App\Service\ObjectService::getInstance();
-    $objects->load($appToken);
+    $objects->loadAllDB();
 
 
     // Server
@@ -37,7 +38,6 @@ try {
 
 
     // Start
-    echo "Server running at http://127.0.0.1:8080\n";
     $loop->run();
 
 } catch (Exception $e) {

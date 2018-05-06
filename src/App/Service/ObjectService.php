@@ -57,9 +57,12 @@ class ObjectService
     /**
      * Loads all data from DB
      */
-    public function load()
+    public function loadAllDB()
     {
         /** @var Database $entity */
+        /** @var Database $entityToUpdate */
+
+        // map all entities
         foreach (self::ENTITIES as $tableName => $entityClassName) {
             $dataRows = $this->database->select('SELECT * FROM ' . $tableName);
             foreach ($dataRows as $dataRow) {
@@ -69,52 +72,33 @@ class ObjectService
                 unset($entity);
             }
         }
-        $this->map();
-        //dump($this->objects);
-    }
 
-    /**
-     * Fucking hell, maybe i should have stayed with doctrine...
-     */
-    public function map()
-    {
-        /** @var Database $entityToUpdate */
+        // map sub entities when they have a relationship
         foreach (self::ENTITIES as $tableName => $entityClassName) {
-            $map = (new $entityClassName())->map();
-            if (!empty($map)) {
-                foreach ($this->objects[$tableName] as $entityToUpdate) {
-                    dump($entityToUpdate);
-                    $this->getMappedEntities($this->objects[$tableName], $map, $entityToUpdate);
+            $mapList = (new $entityClassName())->{'mapping'}();
+            if (empty($mapList)) {
+                continue;
+            }
+            foreach ($this->objects[$tableName] as $entityToUpdate) {
+
+                $searchIds = [];
+                $searchIds[] = $entityToUpdate->getUuid();
+                foreach ($mapList as $targetSetter => $steps) {
+                    foreach ($steps as $step) {
+                        $searchIds = $this->search($searchIds, $step);
+                    }
+
+                    $entityList = [];
+                    $lastTable = end($steps)['table'];
+                    foreach ($searchIds as $id) {
+                        $entityList[] = $this->objects[$lastTable][$id];
+                    }
+                    if (method_exists($entityToUpdate, $targetSetter)) {
+                        $this->objects[$tableName][$entityToUpdate->getUuid()]->{$targetSetter}($entityList);
+                    }
                 }
             }
-        }
-        dump($this->objects);
-    }
 
-    /**
-     * @param Database $entity
-     * @param array $mapList
-     * @param Database $entityToUpdate
-     * @return array
-     */
-    private function getMappedEntities(Database $entity, array $mapList, Database $entityToUpdate): array
-    {
-        $searchIds = [];
-        $searchIds[] = $entity->getUuid();
-        /** @var Database $entity */
-        foreach ($mapList as $targetSetter => $steps) {
-            foreach ($steps as $step) {
-                $searchIds = $this->search($searchIds, $step);
-            }
-
-            $entityList = [];
-            $lastTable = end($steps)['table'];
-            foreach ($searchIds as $id) {
-                $entityList[] = $this->objects[$lastTable][$id];
-            }
-            if (method_exists($entityToUpdate, $targetSetter)) {
-                $entityToUpdate->{$targetSetter}($entityList);
-            }
         }
     }
 
@@ -161,6 +145,6 @@ class ObjectService
         if (!empty($group)) {
             return $this->objects[$group];
         }
-        return $this->objects[$group];
+        return $this->objects;
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
+use JsonSerializable;
 
-class UserEntity extends AbstractObject implements Database
+class UserEntity extends AbstractObject implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_USER;
 
@@ -42,7 +43,7 @@ class UserEntity extends AbstractObject implements Database
      * Does the mapping of sub entities
      * @return array
      */
-    public function map(): array
+    public function mapping(): array
     {
         return [
             'setRoles' => [
@@ -57,6 +58,18 @@ class UserEntity extends AbstractObject implements Database
                     'getterSearch' => 'getUuid', // finally
                 ],
             ],
+        ];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'title' => $this->title,
+            'roles' => $this->roles,
+            'loadedAt' => $this->loadedAt,
+            'createdAt' => $this->createdAt->format('c'),
         ];
     }
 

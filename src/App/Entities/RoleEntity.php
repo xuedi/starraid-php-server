@@ -3,8 +3,9 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
+use JsonSerializable;
 
-class RoleEntity extends AbstractObject implements Database
+class RoleEntity extends AbstractObject implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_ROLE;
 
@@ -29,9 +30,19 @@ class RoleEntity extends AbstractObject implements Database
     /**
      * @return array
      */
-    public function map() : array
+    public function mapping() : array
     {
         return [];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'name' => $this->name,
+            'loadedAt' => $this->loadedAt,
+            'createdAt' => $this->createdAt->format('c'),
+        ];
     }
 
     //#########################################################

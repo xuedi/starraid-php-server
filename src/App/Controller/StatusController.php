@@ -13,7 +13,7 @@ use React\Http\Response;
 class StatusController extends AbstractController implements Routable
 {
     /** ObjectService */
-    private $objects = null;
+    private $objectService = null;
 
     /** AuthenticationService */
     private $authService = null;
@@ -26,7 +26,7 @@ class StatusController extends AbstractController implements Routable
      */
     private function __construct()
     {
-        $this->objects = \App\Service\ObjectService::getInstance();
+        $this->objectService = \App\Service\ObjectService::getInstance();
         $this->authService = \App\Service\AuthenticationService::getInstance();
     }
 
@@ -53,6 +53,8 @@ class StatusController extends AbstractController implements Routable
                 'index' => 'this page',
                 'report' => 'general data overview',
                 'version' => 'current version',
+                'activeUser' => 'list of all currently active user',
+                'getObjects' => 'get all objects (just debug)',
             ],
         ]);
     }
@@ -65,7 +67,7 @@ class StatusController extends AbstractController implements Routable
     {
         return $this->jsonResponse([
             'Ticks' => 0,
-            'Objects' => $this->objects->getStatus(),
+            'Objects' => $this->objectService->getStatus(),
         ]);
     }
 
@@ -88,6 +90,20 @@ class StatusController extends AbstractController implements Routable
     {
         return $this->jsonResponse(
             $this->authService->getList()
+        );
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return Response
+     */
+    public function getObjects(ServerRequestInterface $request): Response
+    {
+        //$this->objectService->getObjects('role')
+        dump($this->objectService->getObjects('role'));
+        dump(json_encode($this->objectService->getObjects('user'), true));
+        return $this->jsonResponse(
+            ['test1234' => 'TEST']
         );
     }
 }

@@ -3,8 +3,9 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
+use JsonSerializable;
 
-class SpaceshipEntity extends AbstractObject implements Database
+class SpaceshipEntity extends AbstractObject implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_SPACESHIP;
 
@@ -42,9 +43,22 @@ class SpaceshipEntity extends AbstractObject implements Database
     /**
      * @return array
      */
-    public function map() : array
+    public function mapping() : array
     {
         return [];
+    }
+
+    public function jsonSerialize()
+    {
+        return [
+            'uuid' => $this->uuid,
+            'userUuid' => $this->userUuid,
+            'title' => $this->title,
+            'x' => $this->x,
+            'y' => $this->y,
+            'loadedAt' => $this->loadedAt,
+            'createdAt' => $this->createdAt->format('c'),
+        ];
     }
 
     //#########################################################

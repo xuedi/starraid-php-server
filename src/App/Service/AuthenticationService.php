@@ -88,9 +88,9 @@ class AuthenticationService
     }
 
     /**
-     * Update laag
+     * @return array
      */
-    public function getList()
+    public function getList(): array
     {
         $userList = [];
         /** @var ActiveUser $activeUser */

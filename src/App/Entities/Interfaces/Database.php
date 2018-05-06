@@ -23,7 +23,7 @@ interface Database
     /**
      * @return array
      */
-    public function map(): array;
+    public function mapping(): array;
 
     /**
      * @return string
