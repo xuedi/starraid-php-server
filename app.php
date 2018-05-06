@@ -8,9 +8,10 @@ try {
     // App
     $appSalt = md5('4fc6eced41f407502b1caca738c08355');
     $appToken = md5($appSalt.'-'.time());
-    $timer = \App\Timer\Timer::getInstance();
+    $timers = \App\Timer\Timer::getInstance();
     $router = new App\Service\RoutingService();
     $database = \App\Service\DatabaseService::getInstance();
+    $auth = \App\Service\AuthenticationService::getInstance($appToken);
     $database->init([
         'host' => '127.0.0.1',
         'port' => 3306,
@@ -32,8 +33,7 @@ try {
 
 
     // Timer
-    //$loop->addPeriodicTimer(1, [$timer, 'updateObjects']);
-    //$loop->addPeriodicTimer(5, [$timer, 'statusDump']);
+    $loop->addPeriodicTimer(1, [$auth, 'tick']);
 
 
     // Start

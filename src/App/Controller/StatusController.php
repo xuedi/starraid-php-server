@@ -15,6 +15,9 @@ class StatusController extends AbstractController implements Routable
     /** ObjectService */
     private $objects = null;
 
+    /** AuthenticationService */
+    private $authService = null;
+
     /** @var StatusController */
     private static $instance;
 
@@ -24,6 +27,7 @@ class StatusController extends AbstractController implements Routable
     private function __construct()
     {
         $this->objects = \App\Service\ObjectService::getInstance();
+        $this->authService = \App\Service\AuthenticationService::getInstance();
     }
 
     /**
@@ -59,11 +63,10 @@ class StatusController extends AbstractController implements Routable
      */
     public function report(ServerRequestInterface $request): Response
     {
-        $report = [
+        return $this->jsonResponse([
             'Ticks' => 0,
             'Objects' => $this->objects->getStatus(),
-        ];
-        return new Response(200, ['Content-Type' => 'application/json'], json_encode($report, true));
+        ]);
     }
 
     /**
@@ -72,9 +75,19 @@ class StatusController extends AbstractController implements Routable
      */
     public function version(ServerRequestInterface $request): Response
     {
-        $version = [
+        return $this->jsonResponse([
             'version' => '0.1',
-        ];
-        return new Response(200, ['Content-Type' => 'application/json'], json_encode($version, true));
+        ]);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return Response
+     */
+    public function activeUser(ServerRequestInterface $request): Response
+    {
+        return $this->jsonResponse(
+            $this->authService->getList()
+        );
     }
 }

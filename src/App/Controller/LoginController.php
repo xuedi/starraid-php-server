@@ -15,6 +15,9 @@ class LoginController extends AbstractController implements Routable
     /** ObjectService */
     private $objects = null;
 
+    /** AuthenticationService */
+    private $authService = null;
+
     /** @var LoginController */
     private static $instance;
 
@@ -24,6 +27,7 @@ class LoginController extends AbstractController implements Routable
     private function __construct()
     {
         $this->objects = \App\Service\ObjectService::getInstance();
+        $this->authService = \App\Service\AuthenticationService::getInstance();
     }
 
     /**
@@ -46,6 +50,6 @@ class LoginController extends AbstractController implements Routable
         $user = $request->getQueryParams()['user'] ?? null;
         $pass = $request->getQueryParams()['pass'] ?? null;
 
-        return $this->jsonResponse($this->objects->authenticate($user, $pass));
+        return $this->jsonResponse($this->authService->authenticate($user, $pass));
     }
 }

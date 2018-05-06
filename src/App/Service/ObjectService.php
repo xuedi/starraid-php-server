@@ -2,11 +2,9 @@
 
 namespace App\Service;
 
-use App\Entities\Authentication;
 use App\Entities\Interfaces\Database;
 use App\Entities\SpaceshipEntity;
 use App\Entities\UserEntity;
-use DateTime;
 
 /**
  * Class ObjectService
@@ -21,12 +19,6 @@ class ObjectService
 
     private $objects;
 
-    /** @var string */
-    private $appToken;
-
-    /** @var Authentication */
-    private $auth;
-
     /** @var DatabaseService */
     private $database;
 
@@ -38,8 +30,6 @@ class ObjectService
      */
     private function __construct()
     {
-        $this->auth = [];
-        $this->appToken = null;
         $this->database = DatabaseService::getInstance();
         foreach (self::ENTITIES as $key => $entityClass) {
             $this->objects[$key] = [];
@@ -60,9 +50,8 @@ class ObjectService
 
     /**
      * Loads all data from DB
-     * @param string $appToken
      */
-    public function load(string $appToken)
+    public function load()
     {
         /** @var Database $entity */
         foreach (self::ENTITIES as $tableName => $entityClassName) {
@@ -74,7 +63,6 @@ class ObjectService
                 unset($entity);
             }
         }
-        $this->appToken = $appToken;
         //dump($this->objects);
     }
 
@@ -91,30 +79,14 @@ class ObjectService
     }
 
     /**
-     * @param string $user
-     * @param string $pass
+     * @param string|null $group
      * @return array
      */
-    public function authenticate(string $user, string $pass): array
+    public function getObjects(string $group = null): array
     {
-        /** @var UserEntity $userEntity */
-        foreach ($this->objects['user'] as $key => $userEntity) {
-            if ($userEntity->getName() == $user && $userEntity->getPassword() == $pass) {
-                $token = md5($this->appToken . '-' . md5($user) . '-' . rand(0, 10000));
-                $auth = new Authentication();
-                $auth->setLoginAt(new DateTime());
-                $auth->setUserUuid($userEntity->getUuid());
-                $this->objects[$token] = $auth;
-                dump("AuthSuccess: Token=$token, User=$user");
-
-                return [
-                    'success' => true,
-                    'token' => $token,
-                ];
-            }
+        if (!empty($group)) {
+            return $this->objects[$group];
         }
-        return [
-            'success' => false,
-        ];
+        return $this->objects[$group];
     }
 }
