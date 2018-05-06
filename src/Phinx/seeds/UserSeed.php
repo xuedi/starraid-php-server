@@ -1,18 +1,12 @@
 <?php
 
-
 use Phinx\Seed\AbstractSeed;
 
+/**
+ * Class UserSeed
+ */
 class UserSeed extends AbstractSeed
 {
-    /**
-     * Run Method.
-     *
-     * Write your database seeder using this method.
-     *
-     * More information on writing seeders is available here:
-     * http://docs.phinx.org/en/latest/seeding.html
-     */
     public function run()
     {
         $data = [
@@ -22,7 +16,8 @@ class UserSeed extends AbstractSeed
                 'name' => 'xuedi',
                 'password' => '12345',
                 'title' => '雪地',
-                'created' => date('Y-m-d H:i:s'),
+                'loadedAt' => 0,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => 'ce030fe6-20bd-47e2-965a-a5f518aebc00',
@@ -30,7 +25,8 @@ class UserSeed extends AbstractSeed
                 'name' => 'npc',
                 'password' => '12345',
                 'title' => 'NPC',
-                'created' => date('Y-m-d H:i:s'),
+                'loadedAt' => 0,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => '3898c34a-200b-48e5-9cc5-c1143a9807ae',
@@ -38,7 +34,8 @@ class UserSeed extends AbstractSeed
                 'name' => 'player1',
                 'password' => '12345',
                 'title' => 'Player 1',
-                'created' => date('Y-m-d H:i:s'),
+                'loadedAt' => 0,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => '657d7eaf-5d0a-44b4-bbd1-412ee3d22b61',
@@ -46,7 +43,8 @@ class UserSeed extends AbstractSeed
                 'name' => 'player2',
                 'password' => '12345',
                 'title' => 'Player 2',
-                'created' => date('Y-m-d H:i:s'),
+                'loadedAt' => 0,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
         ];
 

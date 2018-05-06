@@ -5,7 +5,8 @@
     "doctrine/orm": "2.4.*",
     "react/mysql": "^0.3.2",
     "symfony/var-dumper": "^4.0",
-    "robmorgan/phinx": "*"
+    "robmorgan/phinx": "*",
+    "morris/lessql": "~0.3"
   },
   "autoload": {
     "psr-4": {

@@ -8,7 +8,6 @@ try {
     // App
     $timer = new App\Controller\TimerController();
     $router = new App\Service\RoutingService();
-    $objects = \App\Service\ObjectService::getInstance();
     $database = \App\Service\DatabaseService::getInstance();
     $database->init([
         'host' => '127.0.0.1',
@@ -17,6 +16,8 @@ try {
         'pass' => '12345',
         'name' => 'starraid',
     ]);
+    $objects = \App\Service\ObjectService::getInstance();
+    $objects->load();
 
 
     // Server
@@ -29,8 +30,8 @@ try {
 
 
     // Timer
-    $loop->addPeriodicTimer(1, [$timer, 'updateObjects']);
-    //$loop->addPeriodicTimer(5, [$timer, 'statusDump']);
+    //$loop->addPeriodicTimer(1, [$timer, 'updateObjects']);
+    $loop->addPeriodicTimer(5, [$timer, 'statusDump']);
 
 
     // Start

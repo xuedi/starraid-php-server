@@ -6,36 +6,57 @@ use App\Controller\Interfaces\Routable;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
+/**
+ * Class TimerController
+ * @package App\Controller
+ */
 class TimerController implements Routable
 {
+
     /** ObjectService */
     private $objects = null;
 
-    /** DatabaseService */
-    private $database = null;
+    /** int */
+    private $ticks = null;
 
+
+    /**
+     * TimerController constructor.
+     */
     public function __construct()
     {
+        $this->ticks = 0;
         $this->objects = \App\Service\ObjectService::getInstance();
-        $this->database = \App\Service\DatabaseService::getInstance();
     }
 
+    /**
+     * @param ServerRequestInterface $request
+     * @return Response
+     */
     public function index(ServerRequestInterface $request): Response
     {
         return new Response(200, ['Content-Type' => 'text/plain'], "App: 0.3\n");
     }
 
-    public function updateObjects()
+    /**
+     *
+     */
+    public function loadObjects()
     {
-        dump($this->database);
+        $this->ticks++;
+        //dump($this->objects);
         //echo "updateObjects()\n";
         //$this->objects->add('updateObjects');
     }
 
+    /**
+     *
+     */
     public function statusDump()
     {
         dump([
-            'ObjectService' => $this->objects->getStatus(),
+            'Ticks' => $this->ticks,
+            'Objects' => $this->objects->getStatus(),
         ]);
     }
 }

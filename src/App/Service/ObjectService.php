@@ -2,17 +2,43 @@
 
 namespace App\Service;
 
+use App\Entities\Interfaces\Database;
+use App\Entities\SpaceshipEntity;
+use App\Entities\UserEntity;
+
+/**
+ * Class ObjectService
+ * @package App\Service
+ */
 class ObjectService
 {
-    /** array */
+    const ENTITIES = [
+        'users' => UserEntity::class,
+        'spaceships' => SpaceshipEntity::class,
+    ];
+
     private $objects;
+
+    /** @var DatabaseService */
+    private $database;
+
+    /** @var ObjectService */
     private static $instance;
 
+    /**
+     * ObjectService constructor.
+     */
     private function __construct()
     {
-        $this->objects = [];
+        $this->database = DatabaseService::getInstance();
+        foreach (self::ENTITIES as $key => $entityClass) {
+            $this->objects[$key] = [];
+        }
     }
 
+    /**
+     * @return ObjectService
+     */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
@@ -22,20 +48,35 @@ class ObjectService
         return self::$instance;
     }
 
-    public function init()
+    /**
+     * Loads all data from DB
+     */
+    public function load()
     {
-        //
+        /** @var Database $entity */
+        foreach (self::ENTITIES as $key => $entityClass) {
+            $entity = new $entityClass();
+            $dataSets = $this->database->select('SELECT * FROM ' . $entity->getTableName());
+            foreach ($dataSets as $dataSet) {
+                $uuid = $dataSet['uuid'];
+                if (empty($uuid)) {
+                    continue;
+                }
+                $entity->map($dataSet);
+                $this->objects[$key][$uuid] = $entity;
+            }
+        }
     }
 
-    public function add($var)
-    {
-        $this->objects[] = $var;
-    }
-
+    /**
+     * @return array
+     */
     public function getStatus(): array
     {
-        return [
-            'Objects' => count($this->objects),
-        ];
+        $status = [];
+        foreach (self::ENTITIES as $key => $entityClass) {
+            $status[$key] = count($this->objects[$key]);
+        }
+        return $status;
     }
 }
