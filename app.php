@@ -6,7 +6,7 @@ try {
 
 
     // App
-    $timer = new App\Controller\TimerController();
+    $timer = \App\Timer\Timer::getInstance();
     $router = new App\Service\RoutingService();
     $database = \App\Service\DatabaseService::getInstance();
     $database->init([
@@ -31,7 +31,7 @@ try {
 
     // Timer
     //$loop->addPeriodicTimer(1, [$timer, 'updateObjects']);
-    $loop->addPeriodicTimer(5, [$timer, 'statusDump']);
+    //$loop->addPeriodicTimer(5, [$timer, 'statusDump']);
 
 
     // Start

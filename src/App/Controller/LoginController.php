@@ -7,30 +7,32 @@ use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
 /**
- * Class ObjectController
+ * Class LoginController
  * @package App\Controller
  */
-class ObjectController extends AbstractController implements Routable
+class LoginController extends AbstractController implements Routable
 {
+    /** ObjectService */
+    private $objects = null;
 
-    /** @var TimerController */
+    /** @var LoginController */
     private static $instance;
 
     /**
-     * ObjectController constructor.
+     * LoginController constructor.
      */
     private function __construct()
     {
-        //
+        $this->objects = \App\Service\ObjectService::getInstance();
     }
 
     /**
-     * @return ObjectController|TimerController
+     * @return LoginController
      */
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            self::$instance = new ObjectController();
+            self::$instance = new LoginController();
         }
         return self::$instance;
     }
@@ -41,11 +43,11 @@ class ObjectController extends AbstractController implements Routable
      */
     public function index(ServerRequestInterface $request): Response
     {
+        $user = $request->getQueryParams()['user'] ?? null;
+        $pass = $request->getQueryParams()['pass'] ?? null;
         return $this->jsonResponse([
-            'msg' => 'No method requested',
-            'methods' => [
-                'index' => 'this page',
-            ],
+            'user' => $user,
+            'pass' => $pass,
         ]);
     }
 }

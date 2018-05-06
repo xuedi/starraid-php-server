@@ -2,16 +2,24 @@
 
 namespace App\Service;
 
+use App\Controller\LoginController;
+use App\Controller\ObjectController;
+use App\Controller\StatusController;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
+/**
+ * Class RoutingService
+ * @package App\Service
+ */
 class RoutingService
 {
-    public function __construct()
-    {
-        //
-    }
+    const CONTROLLER = [
+        LoginController::class,
+        StatusController::class,
+        ObjectController::class,
+    ];
 
     /**
      * @param ServerRequestInterface $request
@@ -20,24 +28,56 @@ class RoutingService
      */
     public function dispatch(ServerRequestInterface $request): Response
     {
+        // prepare data
         $path = trim($request->getUri()->getPath(), '/');
         if (empty($path)) {
-            $this->createResponse('Version: 0.1');
+            return $this->error(404, 'No controller requested');
         }
 
+        // split data
         list($controller, $method) = explode('/', $path);
         if (empty($method)) {
             $method = 'index';
         }
 
+        // fire up controller
+        $controllerClassName = $this->findController($controller);
+        if(empty($controllerClassName)) {
+            return $this->error(404, "The requested controller was not found");
+        }
 
-        dump('Controller: ' . $controller . ', Method: ' . $method);
+        // call method
+        $controllerClass = call_user_func([$controllerClassName, 'getInstance']);
+        if (!method_exists($controllerClass, $method)) {
+            return $this->error(500, 'The requested method does not exist');
+        }
 
-        throw new Exception('Could not dispatch to any controller');
+        return $controllerClass->{$method}($request);
     }
 
-    private function createResponse(string $message): Response
+    /**
+     * @param string $controller
+     * @return string
+     * @throws Exception
+     */
+    private function findController(string $controller): ?string
     {
-        return new Response(200, ['Content-Type' => 'text/plain'], $message . "\n");
+        $requestedController = strtolower('App\Controller\\' . $controller . 'Controller');
+        foreach (self::CONTROLLER as $className) {
+            if (strtolower($className) == $requestedController) {
+                return $className;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * @param int $errorCode
+     * @param string $message
+     * @return Response
+     */
+    private function error(int $errorCode, string $message): Response
+    {
+        return new Response($errorCode, ['Content-Type' => 'text/plain'], $message);
     }
 }

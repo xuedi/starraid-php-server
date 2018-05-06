@@ -1,16 +1,12 @@
 <?php
 
-namespace App\Controller;
-
-use App\Controller\Interfaces\Routable;
-use Psr\Http\Message\ServerRequestInterface;
-use React\Http\Response;
+namespace App\Timer;
 
 /**
- * Class TimerController
+ * Class Timer
  * @package App\Controller
  */
-class TimerController implements Routable
+class Timer
 {
 
     /** ObjectService */
@@ -19,23 +15,27 @@ class TimerController implements Routable
     /** int */
     private $ticks = null;
 
+    /** @var Timer */
+    private static $instance;
 
     /**
-     * TimerController constructor.
+     * DatabaseService constructor.
      */
-    public function __construct()
+    private function __construct()
     {
         $this->ticks = 0;
         $this->objects = \App\Service\ObjectService::getInstance();
     }
 
     /**
-     * @param ServerRequestInterface $request
-     * @return Response
+     * @return Timer
      */
-    public function index(ServerRequestInterface $request): Response
+    public static function getInstance()
     {
-        return new Response(200, ['Content-Type' => 'text/plain'], "App: 0.3\n");
+        if (!isset(self::$instance)) {
+            self::$instance = new Timer();
+        }
+        return self::$instance;
     }
 
     /**
