@@ -6,7 +6,8 @@
     "react/mysql": "^0.3.2",
     "symfony/var-dumper": "^4.0",
     "robmorgan/phinx": "*",
-    "morris/lessql": "~0.3"
+    "morris/lessql": "~0.3",
+    "ramsey/uuid": "^3.7"
   },
   "autoload": {
     "psr-4": {

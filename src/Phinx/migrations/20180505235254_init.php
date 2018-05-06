@@ -9,6 +9,7 @@ class Init extends AbstractMigration
 {
     public function change()
     {
+
         $user = $this->table('user', ['id' => false, 'primary_key' => 'uuid']);
         $user->addColumn('uuid', 'uuid');
         $user->addColumn('email', 'string', ['limit' => 255]);
@@ -19,6 +20,18 @@ class Init extends AbstractMigration
         $user->addColumn('createdAt', 'datetime');
         $user->addIndex(['email'], ['unique' => true, 'name' => 'idx_user_email']);
         $user->create();
+
+        $roles = $this->table('role', ['id' => false, 'primary_key' => 'uuid']);
+        $roles->addColumn('uuid', 'uuid');
+        $roles->addColumn('name', 'string', ['limit' => 128]);
+        $roles->create();
+
+        $userRoles = $this->table('user_role', ['id' => false, 'primary_key' => 'uuid']);
+        $userRoles->addColumn('uuid', 'uuid');
+        $userRoles->addColumn('userUuid', 'uuid');
+        $userRoles->addColumn('roleUuid', 'uuid');
+        $userRoles->addIndex(['userUuid','roleUuid'], ['unique' => true, 'name' => 'idx_user_role']);
+        $userRoles->create();
 
         $spaceship = $this->table('spaceship', ['id' => false, 'primary_key' => 'uuid']);
         $spaceship->addColumn('uuid', 'uuid');
