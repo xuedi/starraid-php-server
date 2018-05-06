@@ -39,4 +39,14 @@ interface Database
      * @param string $uuid
      */
     public function setUuid(string $uuid): void;
+
+    /**
+     * @return int
+     */
+    public function getLoadedAt(): int;
+
+    /**
+     * @param int $loadedAt
+     */
+    public function setLoadedAt(int $loadedAt): void;
 }

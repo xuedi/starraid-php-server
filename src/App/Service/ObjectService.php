@@ -23,6 +23,10 @@ class ObjectService
         'spaceship' => SpaceshipEntity::class,
     ];
 
+    /** @var int */
+    private $appStart;
+
+    /** @var array */
     private $objects;
 
     /** @var DatabaseService */
@@ -33,9 +37,11 @@ class ObjectService
 
     /**
      * ObjectService constructor.
+     * @param int $appStart
      */
-    private function __construct()
+    private function __construct(int $appStart)
     {
+        $this->appStart = $appStart;
         $this->database = DatabaseService::getInstance();
         foreach (self::ENTITIES as $key => $entityClass) {
             $this->objects[$key] = [];
@@ -48,7 +54,7 @@ class ObjectService
     public static function getInstance()
     {
         if (!isset(self::$instance)) {
-            self::$instance = new ObjectService();
+            self::$instance = new ObjectService(time());
         }
 
         return self::$instance;
@@ -68,6 +74,7 @@ class ObjectService
             foreach ($dataRows as $dataRow) {
                 $entity = new $entityClassName();
                 $entity->load($dataRow);
+                $entity->setLoadedAt($this->appStart);
                 $this->objects[$tableName][$entity->getUuid()] = $entity;
                 unset($entity);
             }
