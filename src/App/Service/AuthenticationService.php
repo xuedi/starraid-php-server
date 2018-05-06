@@ -3,9 +3,6 @@
 namespace App\Service;
 
 use App\Entities\ActiveUser;
-use App\Entities\Authentication;
-use App\Entities\Interfaces\Database;
-use App\Entities\SpaceshipEntity;
 use App\Entities\UserEntity;
 use DateTime;
 

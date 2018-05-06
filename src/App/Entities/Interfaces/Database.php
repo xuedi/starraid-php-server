@@ -11,6 +11,8 @@ interface Database
     const TYPE_SPACESHIP = 'spaceship';
     const TYPE_CARGO = 'cargo';
     const TYPE_USER = 'user';
+    const TYPE_ROLE = 'role';
+    const TYPE_USER_ROLE = 'user_role';
 
     /**
      * @param array $data

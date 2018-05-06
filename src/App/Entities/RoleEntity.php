@@ -6,7 +6,7 @@ use App\Entities\Interfaces\Database;
 
 class RoleEntity extends AbstractObject implements Database
 {
-    protected static $tableName = self::TYPE_USER;
+    protected static $tableName = self::TYPE_ROLE;
 
     /** @var string */
     private $name;

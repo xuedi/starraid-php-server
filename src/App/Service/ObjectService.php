@@ -3,8 +3,11 @@
 namespace App\Service;
 
 use App\Entities\Interfaces\Database;
+use App\Entities\RoleEntity;
 use App\Entities\SpaceshipEntity;
 use App\Entities\UserEntity;
+use App\Entities\UserRoleEntity;
+
 
 /**
  * Class ObjectService
@@ -14,6 +17,8 @@ class ObjectService
 {
     const ENTITIES = [
         'user' => UserEntity::class,
+        'role' => RoleEntity::class,
+        'user_role' => UserRoleEntity::class,
         'spaceship' => SpaceshipEntity::class,
     ];
 
@@ -63,7 +68,7 @@ class ObjectService
                 unset($entity);
             }
         }
-        //dump($this->objects);
+        dump($this->objects);
     }
 
     /**
