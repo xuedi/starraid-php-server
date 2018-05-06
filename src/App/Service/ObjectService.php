@@ -143,7 +143,7 @@ class ObjectService
     public function getObjects(string $group = null): array
     {
         if (!empty($group)) {
-            return $this->objects[$group];
+            return $this->objects[$group] ?? [];
         }
         return $this->objects;
     }

@@ -15,26 +15,31 @@ class UserRoleSeed extends AbstractSeed
                 'uuid' => Uuid::uuid4()->toString(),
                 'userUuid' => UserSeed::XUEDI,
                 'roleUuid' => RoleSeed::ADMIN,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => Uuid::uuid4()->toString(),
                 'userUuid' => UserSeed::XUEDI,
                 'roleUuid' => RoleSeed::PLAYER,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => Uuid::uuid4()->toString(),
                 'userUuid' => UserSeed::NPC,
                 'roleUuid' => RoleSeed::NPC,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => Uuid::uuid4()->toString(),
                 'userUuid' => UserSeed::PLAYER1,
                 'roleUuid' => RoleSeed::PLAYER,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => Uuid::uuid4()->toString(),
                 'userUuid' => UserSeed::PLAYER2,
                 'roleUuid' => RoleSeed::PLAYER,
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
         ];
 

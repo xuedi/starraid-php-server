@@ -18,18 +18,22 @@ class RoleSeed extends AbstractSeed
             [
                 'uuid' => self::NPC,
                 'name' => 'npc',
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => self::PLAYER,
                 'name' => 'player',
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => self::MANAGER,
                 'name' => 'manager',
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
             [
                 'uuid' => self::ADMIN,
                 'name' => 'admin',
+                'createdAt' => date('Y-m-d H:i:s'),
             ],
         ];
 

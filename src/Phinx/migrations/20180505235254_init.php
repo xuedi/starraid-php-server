@@ -24,12 +24,16 @@ class Init extends AbstractMigration
         $roles = $this->table('role', ['id' => false, 'primary_key' => 'uuid']);
         $roles->addColumn('uuid', 'uuid');
         $roles->addColumn('name', 'string', ['limit' => 128]);
+        $roles->addColumn('loadedAt', 'integer');
+        $roles->addColumn('createdAt', 'datetime');
         $roles->create();
 
         $userRoles = $this->table('user_role', ['id' => false, 'primary_key' => 'uuid']);
         $userRoles->addColumn('uuid', 'uuid');
         $userRoles->addColumn('userUuid', 'uuid');
         $userRoles->addColumn('roleUuid', 'uuid');
+        $userRoles->addColumn('loadedAt', 'integer');
+        $userRoles->addColumn('createdAt', 'datetime');
         $userRoles->addIndex(['userUuid','roleUuid'], ['unique' => true, 'name' => 'idx_user_role']);
         $userRoles->create();
 

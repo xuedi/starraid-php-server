@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
+use DateTime;
 use JsonSerializable;
 
 class SpaceshipEntity extends AbstractObject implements Database, JsonSerializable
@@ -37,7 +38,7 @@ class SpaceshipEntity extends AbstractObject implements Database, JsonSerializab
         // defaults
         $this->uuid = $data['uuid'] ?? null;
         $this->loadedAt = $data['loadedAt'] ?? null;
-        $this->createdAt = $data['createdAt'] ?? null;
+        $this->createdAt = new DateTime($data['createdAt']) ?? null;
     }
 
     /**
@@ -57,7 +58,7 @@ class SpaceshipEntity extends AbstractObject implements Database, JsonSerializab
             'x' => $this->x,
             'y' => $this->y,
             'loadedAt' => $this->loadedAt,
-            'createdAt' => $this->createdAt->format('c'),
+            'createdAt' => ($this->getCreatedAt()) ? $this->createdAt->format('c') : null,
         ];
     }
 

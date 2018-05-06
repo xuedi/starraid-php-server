@@ -27,7 +27,7 @@ class CargoEntity extends AbstractObject implements Database, JsonSerializable
         return [
             'uuid' => $this->uuid,
             'loadedAt' => $this->loadedAt,
-            'createdAt' => $this->createdAt->format('c'),
+            'createdAt' => ($this->createdAt) ? $this->createdAt->format('c') : null,
         ];
     }
 }

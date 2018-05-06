@@ -99,11 +99,8 @@ class StatusController extends AbstractController implements Routable
      */
     public function getObjects(ServerRequestInterface $request): Response
     {
-        //$this->objectService->getObjects('role')
-        dump($this->objectService->getObjects('role'));
-        dump(json_encode($this->objectService->getObjects('user'), true));
         return $this->jsonResponse(
-            ['test1234' => 'TEST']
+            $this->objectService->getObjects()
         );
     }
 }

@@ -18,6 +18,8 @@ abstract class AbstractObject
         Database::TYPE_SPACESHIP,
         Database::TYPE_CARGO,
         Database::TYPE_USER,
+        Database::TYPE_ROLE,
+        Database::TYPE_USER_ROLE,
     ];
 
     /** @var string */
@@ -25,6 +27,9 @@ abstract class AbstractObject
 
     /** @var int */
     protected $loadedAt;
+
+    /** @var null|DateTime */
+    protected $createdAt;
 
     //#########################################################
 
@@ -41,9 +46,6 @@ abstract class AbstractObject
     }
 
     //#########################################################
-
-    /** @var DateTime */
-    protected $createdAt;
 
     /**
      * @return string
@@ -78,17 +80,17 @@ abstract class AbstractObject
     }
 
     /**
-     * @return DateTime
+     * @return DateTime|null
      */
-    public function getCreatedAt(): DateTime
+    public function getCreatedAt(): ?DateTime
     {
         return $this->createdAt;
     }
 
     /**
-     * @param DateTime $createdAt
+     * @param DateTime|null $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(?DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }

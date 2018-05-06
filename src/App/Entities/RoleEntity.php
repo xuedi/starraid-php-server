@@ -3,6 +3,7 @@
 namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
+use DateTime;
 use JsonSerializable;
 
 class RoleEntity extends AbstractObject implements Database, JsonSerializable
@@ -24,13 +25,13 @@ class RoleEntity extends AbstractObject implements Database, JsonSerializable
         // defaults
         $this->uuid = $data['uuid'] ?? null;
         $this->loadedAt = $data['loadedAt'] ?? null;
-        $this->createdAt = $data['createdAt'] ?? null;
+        $this->createdAt = new DateTime($data['createdAt']) ?? null;
     }
 
     /**
      * @return array
      */
-    public function mapping() : array
+    public function mapping(): array
     {
         return [];
     }
@@ -41,7 +42,7 @@ class RoleEntity extends AbstractObject implements Database, JsonSerializable
             'uuid' => $this->uuid,
             'name' => $this->name,
             'loadedAt' => $this->loadedAt,
-            'createdAt' => $this->createdAt->format('c'),
+            'createdAt' => ($this->createdAt) ? $this->createdAt->format('c') : null,
         ];
     }
 
