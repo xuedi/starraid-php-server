@@ -81,6 +81,10 @@ class AuthenticationService
     {
         /** @var ActiveUser $activeUser */
         foreach ($this->activeUsers as $token => $activeUser) {
+            if($activeUser->getLaagCount() >= 10) {
+                unset($this->activeUsers[$token]);
+                continue;
+            }
             $activeUser->increaseLaag();
             $this->activeUsers[$token] = $activeUser;
         }
