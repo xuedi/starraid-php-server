@@ -35,7 +35,7 @@ class RoutingService
         }
 
         // split data
-        list($controller, $method) = explode('/', $path);
+        list($controller, $method) = array_pad(explode('/', $path, 2), 2, null);
         if (empty($method)) {
             $method = 'index';
         }

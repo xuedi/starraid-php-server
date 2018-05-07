@@ -43,3 +43,13 @@ try {
 } catch (Exception $e) {
     echo "##### The App had an 500-Error #####\n" . $e->getMessage();
 }
+
+/**
+ * Todo: #### List ####
+ *  - Async saving back into db once in a while
+ *  - Async check for changed objects in DB
+ *  - BigLoop for neighbourhood preselect (maybe via DB geo select)
+ *  - Auth check on every action per default (keep laag on zero)
+ *  - Add profiler for loops & the (still) blocking parts
+ *  - Updated for players  with there granted items to see (scanner/jammer)
+ */
