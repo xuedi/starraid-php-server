@@ -59,7 +59,7 @@ class AdminController extends AbstractController implements Routable
     public function map(ServerRequestInterface $request): Response
     {
         return $this->jsonResponse(
-            $this->objectService->getObjects()
+            $this->objectService->getObjectGroup()
         );
     }
 }

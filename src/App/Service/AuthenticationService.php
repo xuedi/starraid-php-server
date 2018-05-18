@@ -56,7 +56,7 @@ class AuthenticationService
     {
         $token = null;
         $success = false;
-        $users = $this->objectService->getObjects('user');
+        $users = $this->objectService->getObjectGroup('user');
 
         /** @var UserEntity $userEntity */
         foreach ($users as $key => $userEntity) {

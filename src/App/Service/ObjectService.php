@@ -17,9 +17,9 @@ class ObjectService
 {
     //TODO: make dynamic dependencies
     const ENTITIES = [
-        'role' => RoleEntity::class,
+        'role'      => RoleEntity::class,
         'user_role' => UserRoleEntity::class,
-        'user' => UserEntity::class, // depend on [role, user_role]
+        'user'      => UserEntity::class, // depend on [role, user_role]
         'spaceship' => SpaceshipEntity::class,
     ];
 
@@ -128,6 +128,7 @@ class ObjectService
                 }
             }
         }
+
         return $newSearchIds;
     }
 
@@ -140,6 +141,7 @@ class ObjectService
         foreach (self::ENTITIES as $key => $entityClass) {
             $status[$key] = count($this->objects[$key]);
         }
+
         return $status;
     }
 
@@ -147,11 +149,22 @@ class ObjectService
      * @param string|null $group
      * @return array
      */
-    public function getObjects(string $group = null): array
+    public function getObjectGroup(string $group = null): array
     {
         if (!empty($group)) {
             return $this->objects[$group] ?? [];
         }
+
         return $this->objects;
+    }
+
+    /**
+     * @param string $group
+     * @param string $objectId
+     * @return array
+     */
+    public function getObject(string $group, string $objectId): array
+    {
+        return $this->objects[$group][$objectId];
     }
 }

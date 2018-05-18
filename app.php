@@ -1,5 +1,9 @@
 <?php
 
+use App\Service\AuthenticationService;
+use App\Service\DatabaseService;
+use App\Service\RoutingService;
+
 require 'vendor/autoload.php';
 
 try {
@@ -10,9 +14,9 @@ try {
     $appSalt = md5('4fc6eced41f407502b1caca738c08355');
     $appToken = md5($appSalt.'-'.time());
     $timers = \App\Timer\Timer::getInstance();
-    $router = new App\Service\RoutingService();
-    $database = \App\Service\DatabaseService::getInstance();
-    $auth = \App\Service\AuthenticationService::getInstance($appToken);
+    $router = new RoutingService();
+    $auth = AuthenticationService::getInstance($appToken);
+    $database = DatabaseService::getInstance();
     $database->init([
         'host' => '127.0.0.1',
         'port' => 3306,

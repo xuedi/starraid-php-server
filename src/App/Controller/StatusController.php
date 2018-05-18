@@ -38,6 +38,7 @@ class StatusController extends AbstractController implements Routable
         if (!isset(self::$instance)) {
             self::$instance = new StatusController();
         }
+
         return self::$instance;
     }
 
@@ -48,13 +49,14 @@ class StatusController extends AbstractController implements Routable
     public function index(ServerRequestInterface $request): Response
     {
         return $this->jsonResponse([
-            'msg' => 'No method requested',
+            'msg'     => 'No method requested',
             'methods' => [
-                'index' => 'this page',
-                'report' => 'general data overview',
-                'version' => 'current version',
-                'activeUser' => 'list of all currently active user',
-                'getObjects' => 'get all objects (just debug)',
+                'index'          => 'this page',
+                'report'         => 'general data overview',
+                'version'        => 'current version',
+                'activeUser'     => 'list of all currently active user',
+                'getObjectGroup' => 'get all objects by group',
+                'getObject'      => 'gets single object by group and id',
             ],
         ]);
     }
@@ -66,7 +68,7 @@ class StatusController extends AbstractController implements Routable
     public function report(ServerRequestInterface $request): Response
     {
         return $this->jsonResponse([
-            'Ticks' => 0,
+            'Ticks'   => 0,
             'Objects' => $this->objectService->getStatus(),
         ]);
     }
@@ -100,7 +102,7 @@ class StatusController extends AbstractController implements Routable
     public function getObjects(ServerRequestInterface $request): Response
     {
         return $this->jsonResponse(
-            $this->objectService->getObjects()
+            $this->objectService->getObjectGroup()
         );
     }
 }
