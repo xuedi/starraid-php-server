@@ -5,7 +5,6 @@ SQL_NAME:=$(shell cat config/config.json | grep  'name' | tr -d ' ,\"' | cut -d:
 install:
 	composer self-update
 	composer install
-	php src/Database/createPhinxConfig.php
 
 update:
 	composer self-update
