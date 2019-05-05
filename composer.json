@@ -1,13 +1,15 @@
 {
   "require": {
-    "react/event-loop": "^0.5.2",
-    "react/http": "^0.8.3",
-    "doctrine/orm": "2.4.*",
-    "react/mysql": "^0.3.2",
-    "symfony/var-dumper": "^4.0",
+    "react/event-loop": "^1.1.0",
+    "react/http": "^0.8.4",
+    "react/mysql": "^0.5.3",
+    "ramsey/uuid": "^3.8",
     "robmorgan/phinx": "*",
-    "morris/lessql": "~0.3",
-    "ramsey/uuid": "^3.7"
+    "ext-pdo": "*",
+    "ext-json": "*"
+  },
+  "require-dev": {
+    "symfony/var-dumper": "^4.2"
   },
   "autoload": {
     "psr-4": {

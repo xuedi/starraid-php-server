@@ -17,6 +17,7 @@ class RoleEntity extends AbstractObject implements Database, JsonSerializable
 
     /**
      * @param array $data
+     * @throws \Exception
      */
     public function load(array $data)
     {

@@ -8,6 +8,21 @@ use Ramsey\Uuid\Uuid;
  */
 class UserRoleSeed extends AbstractSeed
 {
+
+    /**
+     * @return array
+     */
+    public function getDependencies()
+    {
+        return [
+            'RoleSeed',
+            'UserSeed',
+        ];
+    }
+
+    /**
+     * @throws Exception
+     */
     public function run()
     {
         $data = [

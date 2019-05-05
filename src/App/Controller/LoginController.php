@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
+use App\Service\AuthenticationService;
+use App\Service\ObjectService;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
@@ -26,8 +28,8 @@ class LoginController extends AbstractController implements Routable
      */
     private function __construct()
     {
-        $this->objects = \App\Service\ObjectService::getInstance();
-        $this->authService = \App\Service\AuthenticationService::getInstance();
+        $this->objects = ObjectService::getInstance();
+        $this->authService = AuthenticationService::getInstance();
     }
 
     /**

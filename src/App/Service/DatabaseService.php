@@ -3,12 +3,10 @@
 namespace App\Service;
 
 use Exception;
-use LessQL\Database;
 use PDO;
 use PDOException;
 
 /**
- * //TODO: Use non-blocking: https://github.com/friends-of-reactphp/mysql
  * Class DatabaseService
  * @package App\Service
  */
@@ -29,50 +27,62 @@ class DatabaseService
     /** @var PDO null */
     private $pdo;
 
-    /** @var Database null */
-    private $db;
+    /** @var array */
+    private $config;
 
     /** @var DatabaseService */
     private static $instance;
 
     /**
      * DatabaseService constructor.
+     * @param string $configFile
+     * @throws Exception
      */
-    private function __construct()
+    private function __construct(string $configFile)
     {
         $this->pdo = null;
-        $this->db = null;
         $this->initTime = null;
+        $this->init($configFile);
     }
 
     /**
+     * @param string $configFile
      * @return DatabaseService
+     * @throws Exception
      */
-    public static function getInstance()
+    public static function getInstance(string $configFile)
     {
         if (!isset(self::$instance)) {
-            self::$instance = new DatabaseService();
+            self::$instance = new DatabaseService($configFile);
         }
         return self::$instance;
     }
 
     /**
-     * @param array $configData
+     * @param string $configFile
      * @throws Exception
      */
-    public function init(array $configData)
+    private function init(string $configFile)
     {
-        $this->initTime = time();
-        array_walk($configData, [$this, 'validateOptions']);
+        if(!file_exists($configFile)) {
+            throw new Exception('Could not find config file: '. $configFile);
+        }
 
-        $dsn = "mysql:host={$configData['host']};port={$configData['port']};dbname={$configData['name']}";
+        $data = json_decode(file_get_contents($configFile), true);
+        if(!isset($data['database'])) {
+            throw new Exception('Could not load database settings from config file: '. $configFile);
+        }
+
+        $this->initTime = time();
+        array_walk($data['database'], [$this, 'validateOptions']);
+
+        $dsn = "mysql:host={$data['database']['host']};port={$data['database']['port']};dbname={$data['database']['name']}";
         $options = [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"];
         try {
-            $this->pdo = new PDO($dsn, $configData['user'], $configData['pass'], $options);
+            $this->pdo = new PDO($dsn, $data['database']['user'], $data['database']['pass'], $options);
         } catch (PDOException $e) {
             throw new Exception("DatabaseService::init(): Could not connect to DB: " . $e->getMessage());
         }
-        $this->db = new Database($this->pdo);
     }
 
     /**

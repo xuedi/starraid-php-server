@@ -2,30 +2,26 @@
 
 use App\Service\AuthenticationService;
 use App\Service\DatabaseService;
+use App\Service\ObjectService;
 use App\Service\RoutingService;
+use App\Timer\Timer;
 
 require 'vendor/autoload.php';
 
 try {
     echo "Server @ http://127.0.0.1:8080\n";
 
+    $config = 'config/config.json';
 
     // App
     $appSalt = md5('4fc6eced41f407502b1caca738c08355');
     $appToken = md5($appSalt.'-'.time());
-    $timers = \App\Timer\Timer::getInstance();
+    $timers = Timer::getInstance();
     $router = new RoutingService();
     $auth = AuthenticationService::getInstance($appToken);
-    $database = DatabaseService::getInstance();
-    $database->init([
-        'host' => '127.0.0.1',
-        'port' => 3306,
-        'user' => 'starraid',
-        'pass' => '12345',
-        'name' => 'starraid',
-    ]);
-    $objects = \App\Service\ObjectService::getInstance();
-    $objects->loadAllDB();
+    $database = DatabaseService::getInstance($config);
+    $objects = ObjectService::getInstance();
+    $objects->init($database); // load $ set database
 
 
     // Server

@@ -7,6 +7,7 @@ use App\Entities\RoleEntity;
 use App\Entities\SpaceshipEntity;
 use App\Entities\UserEntity;
 use App\Entities\UserRoleEntity;
+use Exception;
 
 
 /**
@@ -15,7 +16,6 @@ use App\Entities\UserRoleEntity;
  */
 class ObjectService
 {
-    //TODO: make dynamic dependencies
     const ENTITIES = [
         'role'      => RoleEntity::class,
         'user_role' => UserRoleEntity::class,
@@ -42,7 +42,6 @@ class ObjectService
     private function __construct(int $appStart)
     {
         $this->appStart = $appStart;
-        $this->database = DatabaseService::getInstance();
         foreach (self::ENTITIES as $key => $entityClass) {
             $this->objects[$key] = [];
         }
@@ -50,6 +49,7 @@ class ObjectService
 
     /**
      * @return ObjectService
+     * @throws Exception
      */
     public static function getInstance()
     {
@@ -61,10 +61,12 @@ class ObjectService
     }
 
     /**
-     * Loads all data from DB
+     * @param DatabaseService $database
      */
-    public function loadAllDB()
+    public function init(DatabaseService $database)
     {
+        $this->database = $database;
+
         /** @var Database $entity */
         /** @var Database $entityToUpdate */
 
@@ -92,7 +94,7 @@ class ObjectService
                 $searchIds[] = $entityToUpdate->getUuid();
                 foreach ($mapList as $targetSetter => $steps) {
                     foreach ($steps as $step) {
-                        $searchIds = $this->search($searchIds, $step);
+                        $searchIds = $this->search($step, $searchIds);
                     }
 
                     $entityList = [];
@@ -105,16 +107,15 @@ class ObjectService
                     }
                 }
             }
-
         }
     }
 
     /**
-     * @param array $searchIds
      * @param array $map
+     * @param array $searchIds
      * @return array
      */
-    private function search(array $searchIds = [], array $map): array
+    private function search(array $map, array $searchIds = []): array
     {
         $newSearchIds = [];
         /** @var Database $entity */

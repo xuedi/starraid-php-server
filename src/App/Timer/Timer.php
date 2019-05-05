@@ -2,6 +2,9 @@
 
 namespace App\Timer;
 
+use App\Service\ObjectService;
+use Exception;
+
 /**
  * Class Timer
  * @package App\Controller
@@ -19,16 +22,18 @@ class Timer
     private static $instance;
 
     /**
-     * DatabaseService constructor.
+     * Timer constructor.
+     * @throws Exception
      */
     private function __construct()
     {
         $this->ticks = 0;
-        $this->objects = \App\Service\ObjectService::getInstance();
+        $this->objects = ObjectService::getInstance();
     }
 
     /**
      * @return Timer
+     * @throws Exception
      */
     public static function getInstance()
     {

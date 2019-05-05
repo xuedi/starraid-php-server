@@ -16,24 +16,24 @@ class Init extends AbstractMigration
         $user->addColumn('name', 'string', ['limit' => 128]);
         $user->addColumn('password', 'string', ['limit' => 128]);
         $user->addColumn('title', 'string', ['limit' => 128]);
-        $user->addColumn('loadedAt', 'integer');
-        $user->addColumn('createdAt', 'datetime');
+        $user->addColumn('loadedAt', 'integer', ['null' => true]);
+        $user->addColumn('createdAt', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
         $user->addIndex(['email'], ['unique' => true, 'name' => 'idx_user_email']);
         $user->create();
 
         $roles = $this->table('role', ['id' => false, 'primary_key' => 'uuid']);
         $roles->addColumn('uuid', 'uuid');
         $roles->addColumn('name', 'string', ['limit' => 128]);
-        $roles->addColumn('loadedAt', 'integer');
-        $roles->addColumn('createdAt', 'datetime');
+        $roles->addColumn('loadedAt', 'integer', ['null' => true]);
+        $roles->addColumn('createdAt', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
         $roles->create();
 
         $userRoles = $this->table('user_role', ['id' => false, 'primary_key' => 'uuid']);
         $userRoles->addColumn('uuid', 'uuid');
         $userRoles->addColumn('userUuid', 'uuid');
         $userRoles->addColumn('roleUuid', 'uuid');
-        $userRoles->addColumn('loadedAt', 'integer');
-        $userRoles->addColumn('createdAt', 'datetime');
+        $userRoles->addColumn('loadedAt', 'integer', ['null' => true]);
+        $userRoles->addColumn('createdAt', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
         $userRoles->addIndex(['userUuid','roleUuid'], ['unique' => true, 'name' => 'idx_user_role']);
         $userRoles->create();
 
@@ -43,8 +43,8 @@ class Init extends AbstractMigration
         $spaceship->addColumn('title', 'string', ['limit' => 128]);
         $spaceship->addColumn('x', 'biginteger');
         $spaceship->addColumn('y', 'biginteger');
-        $spaceship->addColumn('loadedAt', 'integer');
-        $spaceship->addColumn('createdAt', 'datetime');
+        $spaceship->addColumn('loadedAt', 'integer', ['null' => true]);
+        $spaceship->addColumn('createdAt', 'datetime', ['default' => 'CURRENT_TIMESTAMP']);
         $spaceship->addForeignKey('userUuid', 'user', ['uuid']);
         $spaceship->create();
     }
