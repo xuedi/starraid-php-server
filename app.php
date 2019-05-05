@@ -11,15 +11,15 @@ require 'vendor/autoload.php';
 try {
     echo "Server @ http://127.0.0.1:8080\n";
 
-    $config = 'config/config.json';
 
     // App
+    $appConfig = 'config/config.json';
     $appSalt = md5('4fc6eced41f407502b1caca738c08355');
     $appToken = md5($appSalt.'-'.time());
     $timers = Timer::getInstance();
     $router = new RoutingService();
     $auth = AuthenticationService::getInstance($appToken);
-    $database = DatabaseService::getInstance($config);
+    $database = DatabaseService::getInstance($appConfig);
     $objects = ObjectService::getInstance();
     $objects->init($database); // load $ set database
 
