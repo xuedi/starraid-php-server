@@ -13,7 +13,7 @@ use React\Http\Response;
 class ObjectController extends AbstractController implements Routable
 {
 
-    /** @var TimerController */
+    /** @var ObjectController */
     private static $instance;
 
     /**
@@ -25,7 +25,7 @@ class ObjectController extends AbstractController implements Routable
     }
 
     /**
-     * @return ObjectController|TimerController
+     * @return ObjectController
      */
     public static function getInstance()
     {

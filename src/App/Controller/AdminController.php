@@ -3,6 +3,9 @@
 namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
+use App\Service\AuthenticationService;
+use App\Service\ObjectService;
+use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
@@ -22,16 +25,18 @@ class AdminController extends AbstractController implements Routable
     private static $instance;
 
     /**
-     * StatusController constructor.
+     * AdminController constructor.
+     * @throws Exception
      */
     private function __construct()
     {
-        $this->objectService = \App\Service\ObjectService::getInstance();
-        $this->authService = \App\Service\AuthenticationService::getInstance();
+        $this->objectService = ObjectService::getInstance();
+        $this->authService = AuthenticationService::getInstance();
     }
 
     /**
-     * @return StatusController
+     * @return AdminController|StatusController
+     * @throws Exception
      */
     public static function getInstance()
     {

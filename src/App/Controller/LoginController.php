@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\Interfaces\Routable;
 use App\Service\AuthenticationService;
 use App\Service\ObjectService;
+use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
@@ -25,6 +26,7 @@ class LoginController extends AbstractController implements Routable
 
     /**
      * LoginController constructor.
+     * @throws Exception
      */
     private function __construct()
     {
@@ -34,6 +36,7 @@ class LoginController extends AbstractController implements Routable
 
     /**
      * @return LoginController
+     * @throws Exception
      */
     public static function getInstance()
     {

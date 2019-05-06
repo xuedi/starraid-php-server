@@ -32,6 +32,7 @@ class RoutingService
      */
     public function dispatch(ServerRequestInterface $request): Response
     {
+        echo "[" . $request->getMethod() . "] " . $request->getUri() . "\n";
         try {
             list($controller, $methodName) = $this->prepareParameter($request->getUri()->getPath());
             $controllerName = $this->getControllerName($controller);

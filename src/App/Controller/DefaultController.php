@@ -37,16 +37,16 @@ class DefaultController extends AbstractController implements Routable
      */
     public function index(ServerRequestInterface $request): Response
     {
-        return $this->jsonResponse([
-            'msg'     => 'No method requested',
-            'methods' => [
-                'index'          => 'this page',
-                'report'         => 'general data overview',
-                'version'        => 'current version',
-                'activeUser'     => 'list of all currently active user',
-                'getObjectGroup' => 'get all objects by group',
-                'getObject'      => 'gets single object by group and id',
-            ],
-        ]);
+        return $this->jsonResponse(
+            [
+                'msg' => 'This are the default Controller',
+                'methods' => [
+                    'admin',
+                    'login',
+                    'object',
+                    'status',
+                ],
+            ]
+        );
     }
 }
