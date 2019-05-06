@@ -3,11 +3,9 @@ SQL_PASS:=$(shell cat config/config.json | grep  'pass' | tr -d ' ,\"' | cut -d:
 SQL_NAME:=$(shell cat config/config.json | grep  'name' | tr -d ' ,\"' | cut -d: -f2)
 
 install:
-	composer self-update
 	composer install
 
 update:
-	composer self-update
 	composer update
 
 run:
