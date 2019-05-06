@@ -5,21 +5,19 @@ use App\Service\DatabaseService;
 use App\Service\ObjectService;
 use App\Service\RoutingService;
 use App\Timer\Timer;
+use App\ValueObjects\Config;
 
 require 'vendor/autoload.php';
 
 try {
-    echo "Server @ http://127.0.0.1:8080\n";
-
 
     // App
-    $appConfig = 'config/config.json';
-    $appSalt = md5('4fc6eced41f407502b1caca738c08355');
-    $appToken = md5($appSalt.'-'.time());
-    $timers = Timer::getInstance();
+    $config = Config::from('config/config.json');
+    $auth = new AuthenticationService($config->getAppToken());
+    $database = new DatabaseService($config->getDatabaseConfig());
     $router = new RoutingService();
-    $auth = AuthenticationService::getInstance($appToken);
-    $database = DatabaseService::getInstance($appConfig);
+    $timers = new Timer();
+
     $objects = ObjectService::getInstance();
     $objects->init($database); // load $ set database
 
@@ -37,11 +35,15 @@ try {
     $loop->addPeriodicTimer(1, [$auth, 'tick']);
 
 
+    // Debug
+    echo "Server @ http://127.0.0.1:8080\n";
+
+
     // Start
     $loop->run();
 
 } catch (Exception $e) {
-    echo "##### The App had an 500-Error #####\n" . $e->getMessage();
+    echo "##### The App had an 500-Error #####\n" . $e->getMessage() . "\n";
 }
 
 /**

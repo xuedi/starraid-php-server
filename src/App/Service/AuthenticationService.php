@@ -22,32 +22,16 @@ class AuthenticationService
     /** ObjectService */
     private $objectService = null;
 
-    /** @var ObjectService */
-    private static $instance;
-
     /**
      * AuthenticationService constructor.
      * @param string $appToken
      * @throws Exception
      */
-    private function __construct(string $appToken)
+    public function __construct(string $appToken)
     {
         $this->appToken = $appToken;
         $this->activeUsers = [];
         $this->objectService = ObjectService::getInstance();
-    }
-
-    /**
-     * @param string|null $appToken
-     * @return AuthenticationService|ObjectService
-     * @throws Exception
-     */
-    public static function getInstance(string $appToken = null)
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new AuthenticationService($appToken);
-        }
-        return self::$instance;
     }
 
     /**

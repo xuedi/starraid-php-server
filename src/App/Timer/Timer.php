@@ -18,29 +18,14 @@ class Timer
     /** int */
     private $ticks = null;
 
-    /** @var Timer */
-    private static $instance;
-
     /**
      * Timer constructor.
      * @throws Exception
      */
-    private function __construct()
+    public function __construct()
     {
         $this->ticks = 0;
         $this->objects = ObjectService::getInstance();
-    }
-
-    /**
-     * @return Timer
-     * @throws Exception
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new Timer();
-        }
-        return self::$instance;
     }
 
     /**

@@ -2,6 +2,8 @@
 
 namespace App\Service;
 
+use App\ValueObjects\Config;
+use App\ValueObjects\DatabaseConfig;
 use Exception;
 use PDO;
 use PDOException;
@@ -12,94 +14,37 @@ use PDOException;
  */
 class DatabaseService
 {
-    /** @var array */
-    const OPTIONS = [
-        'host' => FILTER_VALIDATE_IP,
-        'name' => null,
-        'port' => FILTER_VALIDATE_INT,
-        'user' => null,
-        'pass' => null,
-    ];
-
     /** @var PDO null */
     private $initTime;
 
     /** @var PDO null */
     private $pdo;
 
-    /** @var array */
-    private $config;
-
-    /** @var DatabaseService */
-    private static $instance;
-
     /**
      * DatabaseService constructor.
-     * @param string $configFile
+     * @param DatabaseConfig $config
      * @throws Exception
      */
-    private function __construct(string $configFile)
+    public function __construct(DatabaseConfig $config)
     {
         $this->pdo = null;
         $this->initTime = null;
-        $this->init($configFile);
+        $this->connect($config);
     }
 
     /**
-     * @param string $configFile
-     * @return DatabaseService
+     * @param DatabaseConfig $config
      * @throws Exception
      */
-    public static function getInstance(string $configFile)
+    private function connect(DatabaseConfig $config)
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new DatabaseService($configFile);
-        }
-        return self::$instance;
-    }
-
-    /**
-     * @param string $configFile
-     * @throws Exception
-     */
-    private function init(string $configFile)
-    {
-        if(!file_exists($configFile)) {
-            throw new Exception('Could not find config file: '. $configFile);
-        }
-
-        $data = json_decode(file_get_contents($configFile), true);
-        if(!isset($data['database'])) {
-            throw new Exception('Could not load database settings from config file: '. $configFile);
-        }
-
         $this->initTime = time();
-        array_walk($data['database'], [$this, 'validateOptions']);
-
-        $dsn = "mysql:host={$data['database']['host']};port={$data['database']['port']};dbname={$data['database']['name']}";
         $options = [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"];
+
         try {
-            $this->pdo = new PDO($dsn, $data['database']['user'], $data['database']['pass'], $options);
+            $this->pdo = new PDO($config->getDsn(), $config->getUser(), $config->getPass(), $options);
         } catch (PDOException $e) {
             throw new Exception("DatabaseService::init(): Could not connect to DB: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * @param $configValue
-     * @param $configKey
-     * @throws Exception
-     */
-    private function validateOptions($configValue, $configKey)
-    {
-        if (!array_key_exists($configKey, self::OPTIONS)) {
-            throw new Exception("DatabaseService::init(): Option '$configKey' is not allowed");
-        }
-        $filterFlag = self::OPTIONS[$configKey];
-        if (!empty($filterFlag)) {
-            if (filter_var($configValue, $filterFlag) === false) {
-                throw new Exception("DatabaseService::init(): Option '$configKey' ('$configValue') is not valid");
-            }
         }
     }
 
