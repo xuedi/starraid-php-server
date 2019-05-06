@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Controller\AdminController;
+use App\Controller\DefaultController;
 use App\Controller\LoginController;
 use App\Controller\ObjectController;
 use App\Controller\StatusController;
@@ -17,10 +18,11 @@ use React\Http\Response;
 class RoutingService
 {
     const CONTROLLER = [
-        'login'  => LoginController::class,
+        'login' => LoginController::class,
         'status' => StatusController::class,
         'object' => ObjectController::class,
-        'admin'  => AdminController::class,
+        'admin' => AdminController::class,
+        'default' => DefaultController::class,
     ];
 
     /**
@@ -48,14 +50,12 @@ class RoutingService
     private function prepareParameter(string $uriPath): array
     {
         $path = trim($uriPath, '/');
-        if (empty($path)) {
-            throw new Exception('No controller requested');
+        if (!empty($path)) {
+            list($controller, $method) = array_pad(explode('/', $path, 2), 2, null);
         }
 
-        list($controller, $method) = array_pad(explode('/', $path, 2), 2, null);
-
         return [
-            $controller,
+            $controller ?? self::CONTROLLER['default'],
             $method ?? 'index',
         ];
     }
@@ -69,7 +69,7 @@ class RoutingService
     {
         $controller = strtolower($controller);
         if (!isset(self::CONTROLLER[$controller])) {
-            throw new Exception('The requested controller was not found');
+            return self::CONTROLLER['default'];
         }
 
         return self::CONTROLLER[$controller];
