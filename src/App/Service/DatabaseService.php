@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-use App\ValueObjects\Config;
 use App\ValueObjects\DatabaseConfig;
 use Exception;
 use PDO;
@@ -33,23 +32,6 @@ class DatabaseService
     }
 
     /**
-     * @param DatabaseConfig $config
-     * @throws Exception
-     */
-    private function connect(DatabaseConfig $config)
-    {
-        $this->initTime = time();
-        $options = [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"];
-
-        try {
-            $this->pdo = new PDO($config->getDsn(), $config->getUser(), $config->getPass(), $options);
-        } catch (PDOException $e) {
-            throw new Exception("DatabaseService::init(): Could not connect to DB: " . $e->getMessage());
-        }
-    }
-
-    /**
-     * TODO: Use LessQL
      * @param $sql
      * @param array $parameter
      * @param int $fetchMode
@@ -68,5 +50,21 @@ class DatabaseService
         }
         $sth->execute();
         return $sth->fetchAll($fetchMode);
+    }
+
+    /**
+     * @param DatabaseConfig $config
+     * @throws Exception
+     */
+    private function connect(DatabaseConfig $config)
+    {
+        $this->initTime = time();
+        $options = [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"];
+
+        try {
+            $this->pdo = new PDO($config->getDsn(), $config->getUser(), $config->getPass(), $options);
+        } catch (PDOException $e) {
+            throw new Exception("DatabaseService::init(): Could not connect to DB: " . $e->getMessage());
+        }
     }
 }

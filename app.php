@@ -54,4 +54,5 @@ try {
  *  - Auth check on every action per default (keep laag on zero)
  *  - Add profiler for loops & the (still) blocking parts
  *  - Updated for players  with there granted items to see (scanner/jammer)
+ *  - Possible usage of LessQL
  */
