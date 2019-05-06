@@ -49,6 +49,7 @@ class LoginController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws Exception
      */
     public function index(ServerRequestInterface $request): Response
     {

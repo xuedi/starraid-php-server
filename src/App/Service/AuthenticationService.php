@@ -5,6 +5,7 @@ namespace App\Service;
 use App\Entities\ActiveUser;
 use App\Entities\UserEntity;
 use DateTime;
+use Exception;
 
 /**
  * Class AuthenticationService
@@ -27,10 +28,11 @@ class AuthenticationService
     /**
      * AuthenticationService constructor.
      * @param string $appToken
+     * @throws Exception
      */
     private function __construct(string $appToken)
     {
-        $this->appToken = null;
+        $this->appToken = $appToken;
         $this->activeUsers = [];
         $this->objectService = ObjectService::getInstance();
     }
@@ -38,6 +40,7 @@ class AuthenticationService
     /**
      * @param string|null $appToken
      * @return AuthenticationService|ObjectService
+     * @throws Exception
      */
     public static function getInstance(string $appToken = null)
     {
@@ -51,6 +54,7 @@ class AuthenticationService
      * @param string $user
      * @param string $pass
      * @return array
+     * @throws Exception
      */
     public function authenticate(string $user, string $pass): array
     {
@@ -103,6 +107,7 @@ class AuthenticationService
     /**
      * @param UserEntity $userEntity
      * @return string
+     * @throws Exception
      */
     private function activateUser(UserEntity $userEntity): string
     {
