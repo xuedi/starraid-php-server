@@ -6,6 +6,7 @@ use App\Service\ObjectService;
 use App\Service\RoutingService;
 use App\Timer\Timer;
 use App\ValueObjects\Config;
+use Psr\Http\Message\ServerRequestInterface;
 
 require 'vendor/autoload.php';
 
@@ -25,8 +26,8 @@ try {
     // Server
     $loop = React\EventLoop\Factory::create();
     $socket = new React\Socket\Server(8080, $loop);
-    $server = new React\Http\Server(function (Psr\Http\Message\ServerRequestInterface $request) use ($router) {
-        return $router->dispatch($request);
+    $server = new React\Http\Server(function (ServerRequestInterface $request) use ($router) {
+        return $router->dispatch($request); //TODO DI container in there for pass on controllers
     });
     $server->listen($socket);
 

@@ -5,10 +5,8 @@ SQL_HOST:=$(shell cat config/config.json | grep  'host' | tr -d ' ,\"' | cut -d:
 SQL_PORT:=$(shell cat config/config.json | grep  'port' | tr -d ' ,\"' | cut -d: -f2)
 SQL:=mysql --user='$(SQL_USER)' --password='$(SQL_PASS)' --database='$(SQL_NAME)' --host='$(SQL_HOST)'
 
-install:
+install: reset_database
 	composer install
-	vendor/bin/phinx migrate -e default -c src/Database/phinx.php
-	vendor/bin/phinx seed:run -e default -c src/Database/phinx.php
 
 update:
 	composer update
@@ -16,11 +14,13 @@ update:
 run:
 	php app.php
 
-reset:
-	$(SQL) --execute='DROP TABLE IF EXISTS user_role, spaceship, user, role;'
-	$(SQL) --execute='DELETE FROM phinxlog;'
+reset_database:
+	$(SQL) --execute='DROP TABLE IF EXISTS phinxlog, user_role, spaceship, user, role;'
 	vendor/bin/phinx migrate -e default -c src/Database/phinx.php
 	vendor/bin/phinx seed:run -e default -c src/Database/phinx.php
+
+test_npc:
+	php src/Tests/Stress/SimulateNpc.php
 
 clean:
 	rm -rf vendor/

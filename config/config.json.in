@@ -2,8 +2,8 @@
   "database": {
     "host": "127.0.0.1",
     "port": 3306,
-    "user": ":username",
-    "pass": ":password",
-    "name": ":tablename"
+    "user": "username",
+    "pass": "password",
+    "name": "starraid"
   }
 }
