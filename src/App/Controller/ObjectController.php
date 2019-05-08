@@ -12,29 +12,6 @@ use React\Http\Response;
  */
 class ObjectController extends AbstractController implements Routable
 {
-
-    /** @var ObjectController */
-    private static $instance;
-
-    /**
-     * ObjectController constructor.
-     */
-    private function __construct()
-    {
-        //
-    }
-
-    /**
-     * @return ObjectController
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new ObjectController();
-        }
-        return self::$instance;
-    }
-
     /**
      * @param ServerRequestInterface $request
      * @return Response

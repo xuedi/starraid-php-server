@@ -4,7 +4,6 @@ namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
 use App\Service\AuthenticationService;
-use App\Service\ObjectService;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
@@ -15,35 +14,16 @@ use React\Http\Response;
  */
 class LoginController extends AbstractController implements Routable
 {
-    /** ObjectService */
-    private $objects = null;
-
     /** AuthenticationService */
     private $authService = null;
 
-    /** @var LoginController */
-    private static $instance;
-
     /**
      * LoginController constructor.
-     * @throws Exception
+     * @param AuthenticationService $authService
      */
-    private function __construct()
+    public function __construct(AuthenticationService $authService)
     {
-        $this->objects = ObjectService::getInstance();
-        $this->authService = AuthenticationService::getInstance();
-    }
-
-    /**
-     * @return LoginController
-     * @throws Exception
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new LoginController();
-        }
-        return self::$instance;
+        $this->authService = $authService;
     }
 
     /**

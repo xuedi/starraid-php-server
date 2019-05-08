@@ -15,22 +15,6 @@ use React\Http\Response;
  */
 class DefaultController extends AbstractController implements Routable
 {
-    /** @var DefaultController */
-    private static $instance;
-
-    /**
-     * @return DefaultController
-     * @throws Exception
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new DefaultController();
-        }
-
-        return self::$instance;
-    }
-
     /**
      * @param ServerRequestInterface $request
      * @return Response

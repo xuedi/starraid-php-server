@@ -32,40 +32,22 @@ class ObjectService
     /** @var DatabaseService */
     private $database;
 
-    /** @var ObjectService */
-    private static $instance;
-
     /**
      * ObjectService constructor.
-     * @param int $appStart
+     * @param DatabaseService $database
      */
-    private function __construct(int $appStart)
+    public function __construct(DatabaseService $database)
     {
-        $this->appStart = $appStart;
+        $this->database = $database;
+        $this->appStart = hrtime(true);
         foreach (self::ENTITIES as $key => $entityClass) {
             $this->objects[$key] = [];
         }
+        $this->init();
     }
 
-    /**
-     * @return ObjectService
-     * @throws Exception
-     */
-    public static function getInstance()
+    private function init()
     {
-        if (!isset(self::$instance)) {
-            self::$instance = new ObjectService(time());
-        }
-
-        return self::$instance;
-    }
-
-    /**
-     * @param DatabaseService $database
-     */
-    public function init(DatabaseService $database)
-    {
-        $this->database = $database;
 
         /** @var Database $entity */
         /** @var Database $entityToUpdate */

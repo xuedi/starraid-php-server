@@ -24,14 +24,14 @@ class AuthenticationService
 
     /**
      * AuthenticationService constructor.
+     * @param ObjectService $objectService
      * @param string $appToken
-     * @throws Exception
      */
-    public function __construct(string $appToken)
+    public function __construct(ObjectService $objectService, string $appToken)
     {
-        $this->appToken = $appToken;
         $this->activeUsers = [];
-        $this->objectService = ObjectService::getInstance();
+        $this->appToken = $appToken;
+        $this->objectService = $objectService;
     }
 
     /**

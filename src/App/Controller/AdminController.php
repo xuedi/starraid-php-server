@@ -21,29 +21,15 @@ class AdminController extends AbstractController implements Routable
     /** AuthenticationService */
     private $authService = null;
 
-    /** @var StatusController */
-    private static $instance;
-
     /**
      * AdminController constructor.
-     * @throws Exception
+     * @param ObjectService $objectService
+     * @param AuthenticationService $authService
      */
-    private function __construct()
+    public function __construct(ObjectService $objectService, AuthenticationService $authService)
     {
-        $this->objectService = ObjectService::getInstance();
-        $this->authService = AuthenticationService::getInstance();
-    }
-
-    /**
-     * @return AdminController|StatusController
-     * @throws Exception
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new AdminController();
-        }
-        return self::$instance;
+        $this->objectService = $objectService;
+        $this->authService = $authService;
     }
 
     /**

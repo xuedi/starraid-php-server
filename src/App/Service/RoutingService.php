@@ -4,12 +4,16 @@ namespace App\Service;
 
 use App\Controller\AdminController;
 use App\Controller\DefaultController;
+use App\Controller\Interfaces\Routable;
 use App\Controller\LoginController;
 use App\Controller\ObjectController;
 use App\Controller\StatusController;
 use Exception;
+use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
+use ReflectionClass;
+use ReflectionParameter;
 
 /**
  * Class RoutingService
@@ -17,13 +21,25 @@ use React\Http\Response;
  */
 class RoutingService
 {
-    const CONTROLLER = [
+    const CONTROLLER_MAP = [
         'login' => LoginController::class,
         'status' => StatusController::class,
         'object' => ObjectController::class,
         'admin' => AdminController::class,
         'default' => DefaultController::class,
     ];
+
+    /** @var Container */
+    private $ctn;
+
+    /**
+     * RoutingService constructor.
+     * @param Container $ctn
+     */
+    public function __construct(Container $ctn)
+    {
+        $this->ctn = $ctn;
+    }
 
     /**
      * @param ServerRequestInterface $request
@@ -56,7 +72,7 @@ class RoutingService
         }
 
         return [
-            $controller ?? self::CONTROLLER['default'],
+            $controller ?? self::CONTROLLER_MAP['default'],
             $method ?? 'index',
         ];
     }
@@ -69,11 +85,11 @@ class RoutingService
     private function getControllerName(string $controller): string
     {
         $controller = strtolower($controller);
-        if (!isset(self::CONTROLLER[$controller])) {
-            return self::CONTROLLER['default'];
+        if (!isset(self::CONTROLLER_MAP[$controller])) {
+            return self::CONTROLLER_MAP['default'];
         }
 
-        return self::CONTROLLER[$controller];
+        return self::CONTROLLER_MAP[$controller];
     }
 
     /**
@@ -85,7 +101,28 @@ class RoutingService
      */
     private function executeMethod(string $className, string $method, ServerRequestInterface $request): Response
     {
-        $controllerClass = call_user_func([$className, 'getInstance']);
+        $controllerClass = null;
+        if(!class_exists($className)) {
+            throw new Exception('The requested controller does not exist');
+        }
+
+        $constructor = (new ReflectionClass($className))->getConstructor();
+        if ($constructor === null) { // no parameter in constructor
+            $controllerClass = new $className();
+        } else {
+            $parameters = [];
+            /** @var ReflectionParameter $parameter */
+            foreach ($constructor->getParameters() as $parameter) {
+                $parameterClassName = $parameter->getType()->getName();
+                $parameters[] = $this->ctn[$parameterClassName];
+            }
+            $controllerClass =  call_user_func_array(array($controllerClass, '__construct'), $parameters);
+        }
+
+        if(!$controllerClass instanceof Routable) {
+            throw new Exception('The requested controller is not routable');
+        }
+
         if (!method_exists($controllerClass, $method)) {
             throw new Exception('The requested method does not exist');
         }

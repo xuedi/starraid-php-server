@@ -6,6 +6,7 @@
     "react/http-client": "^0.5.9",
     "ramsey/uuid": "^3.8",
     "robmorgan/phinx": "*",
+    "pimple/pimple": "^3.0",
     "ext-pdo": "*",
     "ext-json": "*"
   },

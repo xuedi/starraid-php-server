@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Controller\Interfaces\Routable;
 use App\Service\AuthenticationService;
 use App\Service\ObjectService;
-use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
@@ -21,30 +20,15 @@ class StatusController extends AbstractController implements Routable
     /** AuthenticationService */
     private $authService = null;
 
-    /** @var StatusController */
-    private static $instance;
-
     /**
      * StatusController constructor.
-     * @throws Exception
+     * @param ObjectService $objectService
+     * @param AuthenticationService $authService
      */
-    private function __construct()
+    public function __construct(ObjectService $objectService, AuthenticationService $authService)
     {
-        $this->objectService = ObjectService::getInstance();
-        $this->authService = AuthenticationService::getInstance();
-    }
-
-    /**
-     * @return StatusController
-     * @throws Exception
-     */
-    public static function getInstance()
-    {
-        if (!isset(self::$instance)) {
-            self::$instance = new StatusController();
-        }
-
-        return self::$instance;
+        $this->objectService = $objectService;
+        $this->authService = $authService;
     }
 
     /**
