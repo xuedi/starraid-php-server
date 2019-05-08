@@ -5,7 +5,7 @@
     "react/mysql": "^0.5.3",
     "react/http-client": "^0.5.9",
     "ramsey/uuid": "^3.8",
-    "robmorgan/phinx": "*",
+    "robmorgan/phinx": "^0.10",
     "pimple/pimple": "^3.0",
     "ext-pdo": "*",
     "ext-json": "*"
@@ -16,7 +16,7 @@
   },
   "autoload": {
     "psr-4": {
-      "": "src/"
+      "starraid": "src/"
     }
   }
 }

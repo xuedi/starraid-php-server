@@ -1,6 +1,7 @@
 <?php
 
 use App\Service\AuthenticationService;
+use App\Service\ContainerService;
 use App\Service\DatabaseService;
 use App\Service\ObjectService;
 use App\Service\RoutingService;
@@ -12,26 +13,13 @@ require 'vendor/autoload.php';
 
 try {
 
-
     // Pimple
-    $ctn = new Container();
-    $ctn[Config::class] = function () {
-        return Config::from('config/config.json');
-    };
-    $ctn[DatabaseService::class] = function ($ctn) {
-        return new DatabaseService($ctn[Config::class]->getDatabaseConfig());
-    };
-    $ctn[ObjectService::class] = function ($ctn) {
-        return new ObjectService($ctn[DatabaseService::class]);
-    };
-    $ctn[AuthenticationService::class] = function ($ctn) {
-        return new AuthenticationService($ctn[ObjectService::class], $ctn[Config::class]->getAppToken());
-    };
+    $ctn = (new ContainerService())->build();
 
 
     // Server
     $loop = React\EventLoop\Factory::create();
-    $router = new RoutingService($ctn); // autoinjects ctn dependencies to controllers
+    $router = new RoutingService($ctn);
     $socket = new React\Socket\Server(8080, $loop);
     $server = new React\Http\Server(function (ServerRequestInterface $request) use ($router) {
         return $router->dispatch($request); //TODO DI container in there for pass on controllers

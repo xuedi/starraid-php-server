@@ -35,12 +35,12 @@ class AuthenticationService
     }
 
     /**
-     * @param string $user
-     * @param string $pass
+     * @param string|null $user
+     * @param string|null $pass
      * @return array
      * @throws Exception
      */
-    public function authenticate(string $user, string $pass): array
+    public function authenticate(string $user = null, string $pass = null): array
     {
         $token = null;
         $success = false;

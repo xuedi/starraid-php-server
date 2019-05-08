@@ -56,7 +56,7 @@ class Config
      */
     private function ensureAppSalt(string $appSalt): void
     {
-        if (strlen($appSalt) < 32) {
+        if (strlen($appSalt) != 32) {
             throw new Exception("The config option 'appSalt' is not valid: '{$appSalt}'");
         }
         $this->appSalt = $appSalt;

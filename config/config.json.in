@@ -1,4 +1,5 @@
 {
+  "appSalt": "c8af94d9ca4b67531e88a84a4aed48a5",
   "database": {
     "host": "127.0.0.1",
     "port": 3306,
