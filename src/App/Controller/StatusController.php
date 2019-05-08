@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
+use App\Exceptions\AuthenticationException;
 use App\Service\AuthenticationService;
 use App\Service\ObjectService;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,9 +18,6 @@ class StatusController extends AbstractController implements Routable
     /** ObjectService */
     private $objectService = null;
 
-    /** AuthenticationService */
-    private $authService = null;
-
     /**
      * StatusController constructor.
      * @param ObjectService $objectService
@@ -27,8 +25,8 @@ class StatusController extends AbstractController implements Routable
      */
     public function __construct(ObjectService $objectService, AuthenticationService $authService)
     {
+        parent::__construct($authService);
         $this->objectService = $objectService;
-        $this->authService = $authService;
     }
 
     /**
@@ -53,9 +51,15 @@ class StatusController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
      */
-    public function report(ServerRequestInterface $request): Response
+    public function update(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_USER,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse(
             [
                 'Ticks' => 0,
@@ -67,9 +71,35 @@ class StatusController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
+     */
+    public function report(ServerRequestInterface $request): Response
+    {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
+        return $this->jsonResponse(
+            [
+                'Ticks' => 0,
+                'Objects' => $this->objectService->getStatus(),
+            ]
+        );
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return Response
+     * @throws AuthenticationException
      */
     public function version(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse(
             [
                 'version' => '0.1',
@@ -80,9 +110,15 @@ class StatusController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
      */
     public function activeUser(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse(
             $this->authService->getList()
         );
@@ -91,9 +127,15 @@ class StatusController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
      */
     public function getAllObjects(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse(
             $this->objectService->getObjectGroup()
         );

@@ -8,6 +8,7 @@ use App\Controller\Interfaces\Routable;
 use App\Controller\LoginController;
 use App\Controller\ObjectController;
 use App\Controller\StatusController;
+use App\Exceptions\AuthenticationException;
 use Exception;
 use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
@@ -40,7 +41,7 @@ class RoutingService
      */
     public function dispatch(ServerRequestInterface $request): Response
     {
-        echo '[' . $request->getMethod() . '] ' . $request->getUri() . PHP_EOL;
+        echo '[' . $request->getMethod() . '] ' . $request->getUri();
         try {
             $path = trim($request->getUri()->getPath(), '/');
             $list = explode('/', $path, 2);
@@ -50,6 +51,8 @@ class RoutingService
             $controllerClass = "App\Controller\\" . ucfirst(strtolower($controller)) . 'Controller';
 
             return $this->execute($controllerClass, $methodName, $request);
+        } catch (AuthenticationException $e) {
+            return $this->error(401, $e->getMessage());
         } catch (Exception $e) {
             return $this->error(500, $e->getMessage());
         }
@@ -87,6 +90,7 @@ class RoutingService
      */
     private function error(int $errorCode, string $message): Response
     {
+        echo ' [' . $errorCode . ']' . PHP_EOL;
         return new Response($errorCode, ['Content-Type' => 'text/plain'], $message);
     }
 }

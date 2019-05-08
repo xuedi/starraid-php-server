@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
+use App\Exceptions\AuthenticationException;
 use App\Service\AuthenticationService;
 use App\Service\ObjectService;
 use Exception;
@@ -18,9 +19,6 @@ class AdminController extends AbstractController implements Routable
     /** ObjectService */
     private $objectService = null;
 
-    /** AuthenticationService */
-    private $authService = null;
-
     /**
      * AdminController constructor.
      * @param ObjectService $objectService
@@ -28,16 +26,22 @@ class AdminController extends AbstractController implements Routable
      */
     public function __construct(ObjectService $objectService, AuthenticationService $authService)
     {
+        parent::__construct($authService);
         $this->objectService = $objectService;
-        $this->authService = $authService;
     }
 
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
      */
     public function index(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse([
             'msg' => 'Nothing to see here',
         ]);
@@ -46,9 +50,15 @@ class AdminController extends AbstractController implements Routable
     /**
      * @param ServerRequestInterface $request
      * @return Response
+     * @throws AuthenticationException
      */
     public function map(ServerRequestInterface $request): Response
     {
+        $this->authService->checkPrivilege(
+            AuthenticationService::ROLE_ADMIN,
+            $request->getQueryParams()['token'] ?? null
+        );
+
         return $this->jsonResponse(
             $this->objectService->getObjectGroup()
         );

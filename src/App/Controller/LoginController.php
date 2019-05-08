@@ -14,18 +14,6 @@ use React\Http\Response;
  */
 class LoginController extends AbstractController implements Routable
 {
-    /** AuthenticationService */
-    private $authService = null;
-
-    /**
-     * LoginController constructor.
-     * @param AuthenticationService $authService
-     */
-    public function __construct(AuthenticationService $authService)
-    {
-        $this->authService = $authService;
-    }
-
     /**
      * @param ServerRequestInterface $request
      * @return Response

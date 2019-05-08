@@ -5,7 +5,7 @@ use React\EventLoop\LoopInterface;
 
 require 'vendor/autoload.php';
 
-class SuperGlobal
+class Npc
 {
     private $client; // after login use for spamming the server
     private $runtime;
@@ -22,7 +22,7 @@ class SuperGlobal
     public static function getInstance(LoopInterface $loop)
     {
         if (!isset(self::$instance)) {
-            self::$instance = new SuperGlobal($loop);
+            self::$instance = new Npc($loop);
         }
         return self::$instance;
     }
@@ -32,17 +32,21 @@ class SuperGlobal
         $this->runtime++;
         echo "Tick: " . $this->runtime . PHP_EOL;
 
-        if($this->authToken===null) {
+        if ($this->authToken === null) {
             $this->authToken = $this->callApi('http://127.0.0.1:8080/login?user=xuedi&pass=12345')['token'] ?? null;
             echo "Authenticated: " . $this->authToken . PHP_EOL;
+            return;
         }
+
+        $update = $this->callApi('http://127.0.0.1:8080/status/update?token=' . $this->authToken);
+        dump($update);
     }
 
     private function callApi(string $uri): array
     {
         $response = file_get_contents($uri);
         $data = json_decode($response, true);
-        if($data) {
+        if ($data) {
             return $data;
         }
         return [];
@@ -51,5 +55,7 @@ class SuperGlobal
 
 
 $loop = React\EventLoop\Factory::create();
-$loop->addPeriodicTimer(1, function () use (&$loop) { SuperGlobal::getInstance($loop)->tick(); });
+$loop->addPeriodicTimer(1, function () use (&$loop) {
+    Npc::getInstance($loop)->tick();
+});
 $loop->run();
