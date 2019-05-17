@@ -5,10 +5,6 @@ namespace App\Entities;
 use DateTime;
 use JsonSerializable;
 
-/**
- * Class ActiveUser
- * @package App\Entities
- */
 class ActiveUser implements JsonSerializable
 {
     /** @var string */

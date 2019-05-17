@@ -2,7 +2,7 @@
 
 use App\Service\AuthenticationService;
 use App\Service\DatabaseService;
-use App\Service\ObjectService;
+use App\Service\EntityService;
 use App\Service\RoutingService;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ class LoginTest extends TestCase
         AuthenticationService::getInstance($this->appToken);
 
         $database = DatabaseService::getInstance('../../config/config.json');
-        $objects = ObjectService::getInstance();
+        $objects = EntityService::getInstance();
         $objects->init($database);
     }
 

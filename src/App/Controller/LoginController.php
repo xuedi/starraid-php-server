@@ -7,10 +7,6 @@ use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-/**
- * Class LoginController
- * @package App\Controller
- */
 class LoginController extends AbstractController implements Routable
 {
     /**

@@ -5,14 +5,10 @@ namespace App\Controller;
 use App\Controller\Interfaces\Routable;
 use App\Exceptions\AuthenticationException;
 use App\Service\AuthenticationService;
-use App\Service\ObjectService;
+use App\Service\EntityService;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-/**
- * Class AdminController
- * @package App\Controller
- */
 class AdminController extends AbstractController implements Routable
 {
     /** ObjectService */
@@ -20,10 +16,10 @@ class AdminController extends AbstractController implements Routable
 
     /**
      * AdminController constructor.
-     * @param ObjectService $objectService
+     * @param EntityService $objectService
      * @param AuthenticationService $authService
      */
-    public function __construct(ObjectService $objectService, AuthenticationService $authService)
+    public function __construct(EntityService $objectService, AuthenticationService $authService)
     {
         parent::__construct($authService);
         $this->objectService = $objectService;

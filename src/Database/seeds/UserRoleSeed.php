@@ -3,9 +3,6 @@
 use Phinx\Seed\AbstractSeed;
 use Ramsey\Uuid\Uuid;
 
-/**
- * Class UserSeed
- */
 class UserRoleSeed extends AbstractSeed
 {
 

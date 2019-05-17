@@ -9,11 +9,7 @@ use App\Entities\UserEntity;
 use App\Entities\UserRoleEntity;
 
 
-/**
- * Class ObjectService
- * @package App\Service
- */
-class ObjectService
+class EntityService
 {
     const ENTITIES = [
         'role' => RoleEntity::class,

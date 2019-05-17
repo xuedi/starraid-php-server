@@ -2,9 +2,6 @@
 
 use Phinx\Seed\AbstractSeed;
 
-/**
- * Class UserSeed
- */
 class RoleSeed extends AbstractSeed
 {
     const NPC = '9afbcc51-26df-4d95-a6ce-ca791d3a5b5d';

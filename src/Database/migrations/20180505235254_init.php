@@ -2,9 +2,6 @@
 
 use Phinx\Migration\AbstractMigration;
 
-/**
- * Class Init
- */
 class Init extends AbstractMigration
 {
     public function change()

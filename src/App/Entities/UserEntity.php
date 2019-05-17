@@ -6,7 +6,7 @@ use App\Entities\Interfaces\Database;
 use DateTime;
 use JsonSerializable;
 
-class UserEntity extends AbstractObject implements Database, JsonSerializable
+class UserEntity extends AbstractEntity implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_USER;
 

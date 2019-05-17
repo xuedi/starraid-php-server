@@ -7,10 +7,6 @@ use Exception;
 use PDO;
 use PDOException;
 
-/**
- * Class DatabaseService
- * @package App\Service
- */
 class DatabaseService
 {
     /** @var PDO null */

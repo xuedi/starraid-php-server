@@ -2,10 +2,6 @@
 
 namespace App\Entities\Interfaces;
 
-/**
- * Interface Database
- * @package App\Entities\Interfaces
- */
 interface Database
 {
     const TYPE_SPACESHIP = 'spaceship';

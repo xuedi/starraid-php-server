@@ -6,7 +6,7 @@ use App\Entities\Interfaces\Database;
 use DateTime;
 use JsonSerializable;
 
-class RoleEntity extends AbstractObject implements Database, JsonSerializable
+class RoleEntity extends AbstractEntity implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_ROLE;
 

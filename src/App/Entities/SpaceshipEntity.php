@@ -7,7 +7,7 @@ use DateTime;
 use Exception;
 use JsonSerializable;
 
-class SpaceshipEntity extends AbstractObject implements Database, JsonSerializable
+class SpaceshipEntity extends AbstractEntity implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_SPACESHIP;
 

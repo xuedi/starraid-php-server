@@ -8,10 +8,6 @@ use App\Exceptions\AuthenticationException;
 use DateTime;
 use Exception;
 
-/**
- * Class AuthenticationService
- * @package App\Service
- */
 class AuthenticationService
 {
     const ROLE_USER = 10;
@@ -28,10 +24,10 @@ class AuthenticationService
 
     /**
      * AuthenticationService constructor.
-     * @param ObjectService $objectService
+     * @param EntityService $objectService
      * @param string $appSalt
      */
-    public function __construct(ObjectService $objectService, string $appSalt)
+    public function __construct(EntityService $objectService, string $appSalt)
     {
         $this->activeUsers = [];
         $this->appSalt = $appSalt;

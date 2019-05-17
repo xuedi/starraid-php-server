@@ -4,10 +4,6 @@ namespace App\ValueObjects;
 
 use Exception;
 
-/**
- * Class Config
- * @package App\ValueObjects
- */
 class Config
 {
     /** @var string */

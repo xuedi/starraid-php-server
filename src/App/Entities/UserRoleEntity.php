@@ -7,7 +7,7 @@ use DateTime;
 use Exception;
 use JsonSerializable;
 
-class UserRoleEntity extends AbstractObject implements Database, JsonSerializable
+class UserRoleEntity extends AbstractEntity implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_USER;
 

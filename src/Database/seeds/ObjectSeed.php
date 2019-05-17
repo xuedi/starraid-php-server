@@ -2,10 +2,7 @@
 
 use Phinx\Seed\AbstractSeed;
 
-/**
- * Class SpaceshipSeed
- */
-class SpaceshipSeed extends AbstractSeed
+class ObjectSeed extends AbstractSeed
 {
 
     public function getDependencies()

@@ -9,10 +9,6 @@ use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-/**
- * Class RoutingService
- * @package App\Service
- */
 class RoutingService
 {
     /** @var Container */

@@ -6,11 +6,7 @@ use App\Entities\Interfaces\Database;
 use DateTime;
 use Exception;
 
-/**
- * Class AbstractObject
- * @package App\Entities
- */
-abstract class AbstractObject
+abstract class AbstractEntity
 {
     protected static $tableName = null;
 
@@ -24,6 +20,9 @@ abstract class AbstractObject
 
     /** @var string */
     protected $uuid;
+
+    /** @var bool */
+    protected $isModified = 0;
 
     /** @var int */
     protected $loadedAt;
@@ -93,5 +92,21 @@ abstract class AbstractObject
     public function setCreatedAt(?DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isModified(): bool
+    {
+        return $this->isModified;
+    }
+
+    /**
+     * @param bool $isModified
+     */
+    public function setIsModified(bool $isModified): void
+    {
+        $this->isModified = $isModified;
     }
 }

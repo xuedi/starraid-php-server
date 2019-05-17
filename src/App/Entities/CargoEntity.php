@@ -5,7 +5,7 @@ namespace App\Entities;
 use App\Entities\Interfaces\Database;
 use JsonSerializable;
 
-class CargoEntity extends AbstractObject implements Database, JsonSerializable
+class CargoEntity extends AbstractEntity implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_CARGO;
 

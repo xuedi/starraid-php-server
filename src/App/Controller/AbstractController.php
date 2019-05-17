@@ -5,10 +5,6 @@ namespace App\Controller;
 use App\Service\AuthenticationService;
 use React\Http\Response;
 
-/**
- * Class AbstractController
- * @package App\Entities
- */
 abstract class AbstractController
 {
     /** AuthenticationService */

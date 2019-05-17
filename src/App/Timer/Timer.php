@@ -2,13 +2,9 @@
 
 namespace App\Timer;
 
-use App\Service\ObjectService;
+use App\Service\EntityService;
 use Exception;
 
-/**
- * Class Timer
- * @package App\Controller
- */
 class Timer
 {
 
@@ -25,7 +21,7 @@ class Timer
     public function __construct()
     {
         $this->ticks = 0;
-        $this->objects = ObjectService::getInstance();
+        $this->objects = EntityService::getInstance();
     }
 
     /**

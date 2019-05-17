@@ -8,11 +8,7 @@ use App\Service\AuthenticationService;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-/**
- * Class ObjectController
- * @package App\Controller
- */
-class ObjectController extends AbstractController implements Routable
+class EntityController extends AbstractController implements Routable
 {
     /**
      * @param ServerRequestInterface $request

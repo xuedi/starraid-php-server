@@ -6,10 +6,6 @@ use App\Controller\Interfaces\Routable;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-/**
- * Class DefaultController
- * @package App\Controller
- */
 class DefaultController extends AbstractController implements Routable
 {
     /**

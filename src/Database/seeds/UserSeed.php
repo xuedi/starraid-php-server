@@ -2,9 +2,6 @@
 
 use Phinx\Seed\AbstractSeed;
 
-/**
- * Class UserSeed
- */
 class UserSeed extends AbstractSeed
 {
     const XUEDI = 'a0f52f45-6aab-449f-b952-08fff7542f19';

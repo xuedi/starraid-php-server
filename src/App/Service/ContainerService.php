@@ -6,24 +6,20 @@ use App\Controller\AdminController;
 use App\Controller\DefaultController;
 use App\Controller\Interfaces\Routable;
 use App\Controller\LoginController;
-use App\Controller\ObjectController;
+use App\Controller\EntityController;
 use App\Controller\StatusController;
 use App\ValueObjects\Config;
 use Pimple\Container;
 use ReflectionClass;
 use ReflectionException;
 
-/**
- * Class ContainerService
- * @package App\Service
- */
 class ContainerService
 {
     const CONTROLLER = [
         LoginController::class,
-        StatusController::class,
-        ObjectController::class,
         AdminController::class,
+        StatusController::class,
+        EntityController::class,
         DefaultController::class,
     ];
 
@@ -43,12 +39,12 @@ class ContainerService
             return new DatabaseService($ctn[Config::class]->getDatabaseConfig());
         };
 
-        $ctn[ObjectService::class] = function ($ctn) {
-            return new ObjectService($ctn[DatabaseService::class]);
+        $ctn[EntityService::class] = function ($ctn) {
+            return new EntityService($ctn[DatabaseService::class]);
         };
 
         $ctn[AuthenticationService::class] = function ($ctn) {
-            return new AuthenticationService($ctn[ObjectService::class], $ctn[Config::class]->getAppToken());
+            return new AuthenticationService($ctn[EntityService::class], $ctn[Config::class]->getAppToken());
         };
 
         foreach (self::CONTROLLER as $controllerClass) {
