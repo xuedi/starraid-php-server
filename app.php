@@ -2,11 +2,7 @@
 
 use App\Service\AuthenticationService;
 use App\Service\ContainerService;
-use App\Service\DatabaseService;
-use App\Service\ObjectService;
 use App\Service\RoutingService;
-use App\ValueObjects\Config;
-use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
 
 require 'vendor/autoload.php';
@@ -47,7 +43,6 @@ try {
  *  - Async saving back into db once in a while
  *  - Async check for changed objects in DB
  *  - BigLoop for neighbourhood preselect (maybe via DB geo select)
- *  - Auth check on every action per default (keep laag on zero)
  *  - Add profiler for loops & the (still) blocking parts
  *  - Updated for players  with there granted items to see (scanner/jammer)
  *  - Possible usage of LessQL

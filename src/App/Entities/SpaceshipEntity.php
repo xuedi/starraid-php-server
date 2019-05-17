@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
 use DateTime;
+use Exception;
 use JsonSerializable;
 
 class SpaceshipEntity extends AbstractObject implements Database, JsonSerializable
@@ -27,6 +28,7 @@ class SpaceshipEntity extends AbstractObject implements Database, JsonSerializab
     /**
      * @param array $data
      * @return mixed|void
+     * @throws Exception
      */
     public function load(array $data)
     {
@@ -44,7 +46,7 @@ class SpaceshipEntity extends AbstractObject implements Database, JsonSerializab
     /**
      * @return array
      */
-    public function mapping() : array
+    public function mapping(): array
     {
         return [];
     }

@@ -3,8 +3,6 @@
 namespace App\ValueObjects;
 
 use Exception;
-use PDO;
-use PDOException;
 
 /**
  * Class DatabaseConfig

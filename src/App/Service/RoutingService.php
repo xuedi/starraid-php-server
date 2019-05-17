@@ -2,20 +2,12 @@
 
 namespace App\Service;
 
-use App\Controller\AdminController;
-use App\Controller\DefaultController;
 use App\Controller\Interfaces\Routable;
-use App\Controller\LoginController;
-use App\Controller\ObjectController;
-use App\Controller\StatusController;
 use App\Exceptions\AuthenticationException;
 use Exception;
 use Pimple\Container;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
-use ReflectionClass;
-use ReflectionException;
-use ReflectionParameter;
 
 /**
  * Class RoutingService

@@ -4,6 +4,7 @@ namespace App\Entities;
 
 use App\Entities\Interfaces\Database;
 use DateTime;
+use Exception;
 use JsonSerializable;
 
 class UserRoleEntity extends AbstractObject implements Database, JsonSerializable
@@ -20,6 +21,8 @@ class UserRoleEntity extends AbstractObject implements Database, JsonSerializabl
 
     /**
      * @param array $data
+     * @return mixed|void
+     * @throws Exception
      */
     public function load(array $data)
     {
@@ -35,7 +38,7 @@ class UserRoleEntity extends AbstractObject implements Database, JsonSerializabl
     /**
      * @return array
      */
-    public function mapping() : array
+    public function mapping(): array
     {
         return [];
     }

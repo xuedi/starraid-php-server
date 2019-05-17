@@ -6,7 +6,6 @@ use App\Controller\Interfaces\Routable;
 use App\Exceptions\AuthenticationException;
 use App\Service\AuthenticationService;
 use App\Service\ObjectService;
-use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
@@ -42,9 +41,11 @@ class AdminController extends AbstractController implements Routable
             $request->getQueryParams()['token'] ?? null
         );
 
-        return $this->jsonResponse([
-            'msg' => 'Nothing to see here',
-        ]);
+        return $this->jsonResponse(
+            [
+                'msg' => 'Nothing to see here',
+            ]
+        );
     }
 
     /**

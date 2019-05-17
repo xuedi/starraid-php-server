@@ -7,7 +7,6 @@ use App\Entities\RoleEntity;
 use App\Entities\SpaceshipEntity;
 use App\Entities\UserEntity;
 use App\Entities\UserRoleEntity;
-use Exception;
 
 
 /**
@@ -17,9 +16,9 @@ use Exception;
 class ObjectService
 {
     const ENTITIES = [
-        'role'      => RoleEntity::class,
+        'role' => RoleEntity::class,
         'user_role' => UserRoleEntity::class,
-        'user'      => UserEntity::class, // depend on [role, user_role]
+        'user' => UserEntity::class, // depend on [role, user_role]
         'spaceship' => SpaceshipEntity::class,
     ];
 

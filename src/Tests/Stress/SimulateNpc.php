@@ -55,7 +55,10 @@ class Npc
 
 
 $loop = React\EventLoop\Factory::create();
-$loop->addPeriodicTimer(1, function () use (&$loop) {
-    Npc::getInstance($loop)->tick();
-});
+$loop->addPeriodicTimer(
+    1,
+    function () use (&$loop) {
+        Npc::getInstance($loop)->tick();
+    }
+);
 $loop->run();

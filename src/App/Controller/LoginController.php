@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Controller\Interfaces\Routable;
-use App\Service\AuthenticationService;
 use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;

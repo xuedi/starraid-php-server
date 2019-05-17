@@ -44,9 +44,11 @@ class Timer
      */
     public function statusDump()
     {
-        dump([
-            'Ticks' => $this->ticks,
-            'Objects' => $this->objects->getStatus(),
-        ]);
+        dump(
+            [
+                'Ticks' => $this->ticks,
+                'Objects' => $this->objects->getStatus(),
+            ]
+        );
     }
 }

@@ -9,6 +9,10 @@ class CargoEntity extends AbstractObject implements Database, JsonSerializable
 {
     protected static $tableName = self::TYPE_CARGO;
 
+    /**
+     * @param array $data
+     * @return mixed|void
+     */
     public function load(array $data)
     {
         // TODO: Implement map() method.
@@ -17,7 +21,7 @@ class CargoEntity extends AbstractObject implements Database, JsonSerializable
     /**
      * @return array
      */
-    public function mapping() : array
+    public function mapping(): array
     {
         return [];
     }

@@ -26,11 +26,13 @@ class ObjectController extends AbstractController implements Routable
             $request->getQueryParams()['token'] ?? null
         );
 
-        return $this->jsonResponse([
-            'msg' => 'No method requested',
-            'methods' => [
-                'index' => 'this page',
-            ],
-        ]);
+        return $this->jsonResponse(
+            [
+                'msg' => 'No method requested',
+                'methods' => [
+                    'index' => 'this page',
+                ],
+            ]
+        );
     }
 }

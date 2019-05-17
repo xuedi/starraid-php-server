@@ -71,10 +71,10 @@ class AuthenticationService
      */
     public function checkPrivilege(int $demandLevel, string $token = null): void
     {
-        if($token===null || empty($token)) {
+        if ($token === null || empty($token)) {
             throw new AuthenticationException('Missing authentication token');
         }
-        if(!isset($this->activeUsers[$token])) {
+        if (!isset($this->activeUsers[$token])) {
             throw new AuthenticationException('Not Authenticated');
         }
         $this->activeUsers[$token]->setLaagCount(0);
@@ -87,7 +87,7 @@ class AuthenticationService
     {
         /** @var ActiveUser $activeUser */
         foreach ($this->activeUsers as $token => $activeUser) {
-            if($activeUser->getLaagCount() >= 60) {
+            if ($activeUser->getLaagCount() >= 60) {
                 unset($this->activeUsers[$token]);
                 continue;
             }

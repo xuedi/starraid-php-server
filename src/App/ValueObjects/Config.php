@@ -3,8 +3,6 @@
 namespace App\ValueObjects;
 
 use Exception;
-use PDO;
-use PDOException;
 
 /**
  * Class Config
@@ -71,7 +69,7 @@ class Config
         if (strlen($appSalt) < 32) {
             throw new Exception("The config option 'appSalt' is not valid: '{$appSalt}'");
         }
-        $this->appToken = md5($appSalt.'-'.time());;
+        $this->appToken = md5($appSalt . '-' . time());;
     }
 
     /**
