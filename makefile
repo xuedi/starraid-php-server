@@ -11,6 +11,9 @@ install: reset_database
 update:
 	composer update
 
+test:
+	vendor/bin/phpstan analyse src --level 5
+
 run:
 	php app.php
 

@@ -32,7 +32,7 @@ class ActiveUser implements JsonSerializable
             'userUuid' => $this->userUuid,
             'userName' => $this->userName,
             'laagCount' => $this->laagCount,
-            'loginAt' => ($this->loginAt) ? $this->loginAt->format('c') : null,
+            'loginAt' => $this->loginAt,
         ];
     }
 

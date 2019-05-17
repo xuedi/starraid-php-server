@@ -26,6 +26,6 @@ abstract class AbstractController
     public function jsonResponse(array $data): Response
     {
         echo ' [200]' . PHP_EOL;
-        return new Response(200, ['Content-Type' => 'application/json'], json_encode($data, true));
+        return new Response(200, ['Content-Type' => 'application/json'], json_encode($data));
     }
 }

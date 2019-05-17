@@ -22,7 +22,7 @@ abstract class AbstractEntity
     protected $uuid;
 
     /** @var bool */
-    protected $isModified = 0;
+    protected $isModified = false;
 
     /** @var int */
     protected $loadedAt;

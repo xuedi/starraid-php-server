@@ -5,7 +5,7 @@ namespace App\Service;
 use App\Controller\AdminController;
 use App\Controller\DefaultController;
 use App\Controller\Interfaces\Routable;
-use App\Controller\LoginController;
+use App\Controller\AuthenticationController;
 use App\Controller\EntityController;
 use App\Controller\StatusController;
 use App\ValueObjects\Config;
@@ -16,7 +16,7 @@ use ReflectionException;
 class ContainerService
 {
     const CONTROLLER = [
-        LoginController::class,
+        AuthenticationController::class,
         AdminController::class,
         StatusController::class,
         EntityController::class,

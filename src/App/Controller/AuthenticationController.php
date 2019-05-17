@@ -7,7 +7,7 @@ use Exception;
 use Psr\Http\Message\ServerRequestInterface;
 use React\Http\Response;
 
-class LoginController extends AbstractController implements Routable
+class AuthenticationController extends AbstractController implements Routable
 {
     /**
      * @param ServerRequestInterface $request
@@ -15,6 +15,16 @@ class LoginController extends AbstractController implements Routable
      * @throws Exception
      */
     public function index(ServerRequestInterface $request): Response
+    {
+        return $this->jsonResponse(['You can login here']);
+    }
+
+    /**
+     * @param ServerRequestInterface $request
+     * @return Response
+     * @throws Exception
+     */
+    public function login(ServerRequestInterface $request): Response
     {
         $user = $request->getQueryParams()['user'] ?? null;
         $pass = $request->getQueryParams()['pass'] ?? null;

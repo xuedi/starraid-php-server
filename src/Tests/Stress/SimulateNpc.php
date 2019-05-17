@@ -1,11 +1,12 @@
 <?php
+
 ini_set('error_reporting', E_ALL & ~E_NOTICE & ~E_STRICT & ~E_DEPRECATED & ~E_WARNING);
 
 use React\EventLoop\LoopInterface;
 
 require 'vendor/autoload.php';
 
-class Npc
+class SimulateNpc
 {
     private $client; // after login use for spamming the server
     private $runtime;
@@ -22,7 +23,7 @@ class Npc
     public static function getInstance(LoopInterface $loop)
     {
         if (!isset(self::$instance)) {
-            self::$instance = new Npc($loop);
+            self::$instance = new SimulateNpc($loop);
         }
         return self::$instance;
     }
@@ -33,7 +34,7 @@ class Npc
         echo "Tick: " . $this->runtime . PHP_EOL;
 
         if ($this->authToken === null) {
-            $this->authToken = $this->callApi('http://127.0.0.1:8080/login?user=xuedi&pass=12345')['token'] ?? null;
+            $this->authToken = $this->callApi('http://127.0.0.1:8080/authentication/login?user=xuedi&pass=12345')['token'] ?? null;
             echo "Authenticated: " . $this->authToken . PHP_EOL;
             return;
         }
@@ -58,7 +59,7 @@ $loop = React\EventLoop\Factory::create();
 $loop->addPeriodicTimer(
     1,
     function () use (&$loop) {
-        Npc::getInstance($loop)->tick();
+        SimulateNpc::getInstance($loop)->tick();
     }
 );
 $loop->run();
