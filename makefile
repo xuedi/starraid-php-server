@@ -5,27 +5,34 @@ SQL_HOST:=$(shell cat config/config.json | grep  'host' | tr -d ' ,\"' | cut -d:
 SQL_PORT:=$(shell cat config/config.json | grep  'port' | tr -d ' ,\"' | cut -d: -f2)
 SQL:=mysql --user='$(SQL_USER)' --password='$(SQL_PASS)' --database='$(SQL_NAME)' --host='$(SQL_HOST)'
 
-install: reset_database
+help: ## prints this help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+install: reset_database ## does a composer install & reset of database
 	composer install
 
-update:
-	composer update
+update: ## updated composer packages
+	composer update --no-suggest
 
-test:
-	vendor/bin/phpstan analyse src --level 5
+suggest: ## show suggested composer packages and who is requesting them
+	composer suggest -v
 
-run:
+run: ## runs tha application
 	php app.php
 
-reset_database:
+reset_database: ## resets the database to basic seed
 	$(SQL) --execute='DROP TABLE IF EXISTS phinxlog, user_role, spaceship, user, role;'
 	vendor/bin/phinx migrate -e default -c src/Database/phinx.php
 	vendor/bin/phinx seed:run -e default -c src/Database/phinx.php
 
-test_npc:
-	php src/Tests/Stress/SimulateNpc.php
+test: ## runs tests
+	vendor/bin/phpstan analyse src/App --level 5
+	./vendor/bin/phpunit --bootstrap vendor/autoload.php src/Tests/*
 
-clean:
+test_npc: ## test a dummy NPC (login & ping)
+	php appNpc.php
+
+clean: ## cleans up hard (vendor, cache ...)
 	rm -rf vendor/
 
 

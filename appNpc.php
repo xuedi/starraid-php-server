@@ -6,7 +6,7 @@ use React\EventLoop\LoopInterface;
 
 require 'vendor/autoload.php';
 
-class SimulateNpc
+class appNpc
 {
     private $client; // after login use for spamming the server
     private $runtime;
@@ -23,7 +23,7 @@ class SimulateNpc
     public static function getInstance(LoopInterface $loop)
     {
         if (!isset(self::$instance)) {
-            self::$instance = new SimulateNpc($loop);
+            self::$instance = new appNpc($loop);
         }
         return self::$instance;
     }
@@ -59,7 +59,7 @@ $loop = React\EventLoop\Factory::create();
 $loop->addPeriodicTimer(
     1,
     function () use (&$loop) {
-        SimulateNpc::getInstance($loop)->tick();
+        appNpc::getInstance($loop)->tick();
     }
 );
 $loop->run();

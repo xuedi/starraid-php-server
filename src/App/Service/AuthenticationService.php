@@ -12,6 +12,7 @@ class AuthenticationService
 {
     const ROLE_USER = 10;
     const ROLE_ADMIN = 100;
+    const MAX_LAAG = 30;
 
     /** @var string */
     private $appSalt;
@@ -83,7 +84,7 @@ class AuthenticationService
     {
         /** @var ActiveUser $activeUser */
         foreach ($this->activeUsers as $token => $activeUser) {
-            if ($activeUser->getLaagCount() >= 60) {
+            if ($activeUser->getLaagCount() >= self::MAX_LAAG) {
                 unset($this->activeUsers[$token]);
                 continue;
             }
