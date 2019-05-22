@@ -1,4 +1,4 @@
-<?php
+<?php declare(strict_types = 1);
 
 use App\Service\AuthenticationService;
 use App\Service\ContainerService;
@@ -40,9 +40,10 @@ try {
 
 /**
  * Todo: #### List ####
+ *  - Implement autowiring and remove container parameter from the routerService
  *  - Async saving back into db once in a while
  *  - Async check for changed objects in DB
- *  - BigLoop for neighbourhood preselect (maybe via DB geo select)
+ *  - BigLoop for neighbourhood preselect
  *  - Add profiler for loops & the (still) blocking parts
  *  - Updated for players  with there granted items to see (scanner/jammer)
  *  - Possible usage of LessQL

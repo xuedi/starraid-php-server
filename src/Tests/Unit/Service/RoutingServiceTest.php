@@ -49,7 +49,7 @@ class RoutingServiceTest extends UnitTestBase
      */
     public function testControllerRouting(string $controllerName): void
     {
-        //$this->markTestSkipped();
+        $this->markTestSkipped();
 
         $responseBody = ['success' => true, 'token' => 'a0f52f45-6aab-449f-b952-08fff7542f19'];
         $expected = $this->createResponse($responseBody);
