@@ -2,6 +2,7 @@
 
 use App\Service\AuthenticationService;
 use App\Service\ContainerService;
+use App\Service\NpcService;
 use App\Service\RoutingService;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -24,7 +25,8 @@ try {
 
 
     // Timer
-    $loop->addPeriodicTimer(1, [$ctn[AuthenticationService::class], 'tick']);
+    $loop->addPeriodicTimer(1.0, [$ctn[AuthenticationService::class], 'tick']);
+    $loop->addPeriodicTimer(0.1, [$ctn[NpcService::class], 'tick']);
 
 
     // Debug
@@ -40,6 +42,7 @@ try {
 
 /**
  * Todo: #### List ####
+ *  - Move the NPC into the game server itself, save networking overhead
  *  - Implement autowiring and remove container parameter from the routerService
  *  - Async saving back into db once in a while
  *  - Async check for changed objects in DB

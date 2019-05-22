@@ -43,6 +43,10 @@ class ContainerService
             return new EntityService($ctn[DatabaseService::class]);
         };
 
+        $ctn[NpcService::class] = function () {
+            return new NpcService();
+        };
+
         $ctn[AuthenticationService::class] = function ($ctn) {
             return new AuthenticationService($ctn[EntityService::class], $ctn[Config::class]->getAppToken());
         };
